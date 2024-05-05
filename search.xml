@@ -8,7 +8,7 @@
       <link href="/2024/05/05/%E7%94%9F%E6%88%90%E6%96%87%E7%AB%A0/"/>
       <url>/2024/05/05/%E7%94%9F%E6%88%90%E6%96%87%E7%AB%A0/</url>
       
-        <content type="html"><![CDATA[<p>在命令行中，输入</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo n 文章名称</span><br></pre></td></tr></table></figure><p>即可生成新文章</p>]]></content>
+        <content type="html"><![CDATA[<p>在命令行中，输入</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo n 文章名称</span><br></pre></td></tr></table></figure><p>即可生成新文章</p><p>注意事项：</p><p>头部文章属性，冒号后面要跟上空格</p>]]></content>
       
       
       <categories>
