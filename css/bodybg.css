@@ -55,3 +55,7 @@
     rgba(109, 186, 130, 0.1) 100%
   );
 }
+
+#page-header.not-home-page {
+    height: 450px;
+}
