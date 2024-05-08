@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>在微信小程序中引入font awesome</title>
+      <link href="/2024/05/08/WeChatBlog/"/>
+      <url>/2024/05/08/WeChatBlog/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><h2 id="获取图标"><a href="#获取图标" class="headerlink" title="获取图标"></a>获取图标</h2><p>现在官网下载压缩包<a href="https://fontawesome.dashgame.com/">Font Awesome，一套绝佳的图标字体库和CSS框架 (dashgame.com)</a>，将文件解压后，得到以下文件：</p><p><img src="/img/wechatblog/1.png"></p><h2 id="转换字体文件"><a href="#转换字体文件" class="headerlink" title="转换字体文件"></a>转换字体文件</h2><p>将font&#x2F;fontawesome-webfont.ttf文件</p><p>通过<a href="https://transfonter.org/">Online @font-face generator — Transfonter</a>获得Base64编码格式的文件，具体操作配置如下：</p><p><img src="/img/wechatblog/2.png"></p><p>下载后得到一个压缩包</p><h2 id="修改样式文件"><a href="#修改样式文件" class="headerlink" title="修改样式文件"></a>修改样式文件</h2><p>解压压缩包，将解压出的文件中的stylesheet.css改名为stylesheet.wxss</p><p>将fontawesome文件下的css&#x2F;font-awesome.css改名为font-awesome.wxss</p><p>最后将这两个文件放入微信小程序的项目文件中，在app.wxss中引入就可以使用了</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@import</span>&quot;./stylesheet.wxss&quot;;</span><br><span class="line"><span class="keyword">@import</span>&quot;./font-awesome.wxss&quot;;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> blog </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> wechat </tag>
+            
+            <tag> blog </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hexo相关命令</title>
       <link href="/2024/05/05/%E7%94%9F%E6%88%90%E6%96%87%E7%AB%A0/"/>
       <url>/2024/05/05/%E7%94%9F%E6%88%90%E6%96%87%E7%AB%A0/</url>
