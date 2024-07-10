@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>ubuntu基本使用</title>
+      <link href="/2024/07/10/ubuntu%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
+      <url>/2024/07/10/ubuntu%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><h1 id="压缩包管理——ZIP"><a href="#压缩包管理——ZIP" class="headerlink" title="压缩包管理——ZIP"></a>压缩包管理——ZIP</h1><h2 id="安装ZIP"><a href="#安装ZIP" class="headerlink" title="安装ZIP"></a>安装ZIP</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-install zip</span><br></pre></td></tr></table></figure><h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><h3 id="压缩文件"><a href="#压缩文件" class="headerlink" title="压缩文件"></a>压缩文件</h3><ol><li>压缩文件单个文件：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip test.zip myfile</span><br></pre></td></tr></table></figure><p>test.zip：压缩文件的名称</p><p>myfile：压缩的目标文件</p><ol start="2"><li>压缩多个文件：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip test.zip file1 file2 file3</span><br></pre></td></tr></table></figure><h3 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h3><ol><li>解压缩到当前目录</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip test.zip</span><br></pre></td></tr></table></figure><ol start="2"><li>解压缩到指定目录</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip test.zip -d directory</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Ubuntu </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Java测试题</title>
       <link href="/2024/06/29/Java%E6%B5%8B%E8%AF%95%E9%A2%98/"/>
       <url>/2024/06/29/Java%E6%B5%8B%E8%AF%95%E9%A2%98/</url>
