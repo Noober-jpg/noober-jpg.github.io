@@ -1,0 +1,781 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>微服务面试相关内容 | Norlcyan's Blog</title><meta name="author" content="Zhao"><meta name="copyright" content="Zhao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="分布式事务CAP定理1998年，加州大学的计算机科学家Eric Brewer提出，分布式系统有三个指标：  Consistency（一致性） Availability（可用性） Partition tolerance（分区容错性）  Eric Brewer认为，分布式系统无法同时满足这三个指标 这个结论就叫做CAP定理 ConsistencyConsistency（一致性）：用户访问分布式系统中的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务面试相关内容">
+<meta property="og:url" content="http://example.com/archives/753c5713.html">
+<meta property="og:site_name" content="Norlcyan&#39;s Blog">
+<meta property="og:description" content="分布式事务CAP定理1998年，加州大学的计算机科学家Eric Brewer提出，分布式系统有三个指标：  Consistency（一致性） Availability（可用性） Partition tolerance（分区容错性）  Eric Brewer认为，分布式系统无法同时满足这三个指标 这个结论就叫做CAP定理 ConsistencyConsistency（一致性）：用户访问分布式系统中的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/avatar.jpg">
+<meta property="article:published_time" content="2026-01-16T04:46:20.000Z">
+<meta property="article:modified_time" content="2026-01-16T04:53:21.241Z">
+<meta property="article:author" content="Zhao">
+<meta property="article:tag" content="后端">
+<meta property="article:tag" content="SpringCloud">
+<meta property="article:tag" content="Nacos">
+<meta property="article:tag" content="CAP定理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpg"><link rel="shortcut icon" href="/img/z.png"><link rel="canonical" href="http://example.com/archives/753c5713.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '微服务面试相关内容',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-01-16 12:53:21'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/footer.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/bodybg.css"><meta name="generator" content="Hexo 7.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">142</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Norlcyan's Blog"><span class="site-name">Norlcyan's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">微服务面试相关内容</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-16T04:46:20.000Z" title="发表于 2026-01-16 12:46:20">2026-01-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-16T04:53:21.241Z" title="更新于 2026-01-16 12:53:21">2026-01-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="微服务面试相关内容"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h1><h2 id="CAP定理"><a href="#CAP定理" class="headerlink" title="CAP定理"></a>CAP定理</h2><p>1998年，加州大学的计算机科学家Eric Brewer提出，分布式系统有三个指标：</p>
+<ul>
+<li>Consistency（一致性）</li>
+<li>Availability（可用性）</li>
+<li>Partition tolerance（分区容错性）</li>
+</ul>
+<p>Eric Brewer认为，分布式系统无法同时满足这三个指标</p>
+<p>这个结论就叫做CAP定理</p>
+<h3 id="Consistency"><a href="#Consistency" class="headerlink" title="Consistency"></a>Consistency</h3><p>Consistency（一致性）：用户访问分布式系统中的任意节点，得到的数据必须一致</p>
+<p>比如现在包含两个节点，其中的初始数据是一致的：</p>
+<img src="/img/loading.gif" data-original="/img/微服务assests/whiteboard_exported_image (23).png" alt="whiteboard_exported_image (23)" style="zoom:50%;" />
+
+<p>当修改其中一个节点的数据时，两者的数据产生了差异：</p>
+<img src="/img/loading.gif" data-original="/img/微服务assests/whiteboard_exported_image (24).png" alt="whiteboard_exported_image (24)" style="zoom:50%;" />
+
+<p>要想保住一致性，就必须实现node01 到 node02的数据 同步：</p>
+<img src="/img/loading.gif" data-original="/img/微服务assests/whiteboard_exported_image (25).png" alt="whiteboard_exported_image (25)" style="zoom:50%;" />
+
+
+
+<h3 id="Availability"><a href="#Availability" class="headerlink" title="Availability"></a>Availability</h3><p>Availability（可用性）：用户访问分布式系统时，读或写操作总能成功。只能读不能写，或者只能写不能读，或者两者都不能执行，说明系统弱可用或不可用</p>
+<h3 id="Partition-tolerance"><a href="#Partition-tolerance" class="headerlink" title="Partition tolerance"></a>Partition tolerance</h3><p>Partition（分区）：因为网络故障或其他原因导致分布式系统中的部分节点与其他节点失去连接，形成独立分区</p>
+<img src="/img/loading.gif" data-original="/img/微服务assests/whiteboard_exported_image (26).png" alt="whiteboard_exported_image (26)" style="zoom:50%;" />
+
+<p>如上图，node01和node02之间网关畅通，但是与node03之间网络断开。于是node03成为一个独立的网络分区；node01和node02在一个网络分区</p>
+<p>Tolerance（容错）：即便是系统出现网络分区，整个系统也要持续对外提供服务</p>
+<h3 id="三者间的矛盾"><a href="#三者间的矛盾" class="headerlink" title="三者间的矛盾"></a>三者间的矛盾</h3><p>在分布式系统中，网络不能100%保证畅通，也就是说网络分区的情况一定会存在。而系统必须要持续运行，对外提供服务。所以**<font color='red'>分区容错性（<code>P</code>）是硬性指标</font><strong>，所有分布式系统都要满足。而在</strong>设计分布式系统时要取舍的就是一致性（<code>C</code>）和可用性（<code>A</code>）了**</p>
+<p>假如现在出现了网络分区，如图：</p>
+<img src="/img/loading.gif" data-original="/img/微服务assests/whiteboard_exported_image (27).png" alt="whiteboard_exported_image (27)" style="zoom:50%;" />
+
+<p>由于网络故障，当数据写入node01时，可以与node02完成数据同步，但是无法同步给node03。现在有两种选择：</p>
+<ul>
+<li><strong>允许用户任意读写，保证可用性</strong>。但由于node03无法完成同步，就会出现数据不一致的情况。满足AP</li>
+<li><strong>不允许用户写，可以读，直到网络恢复，分区消失</strong>。这样就确保了一致性，但牺牲了可用性。满足CP</li>
+</ul>
+<h2 id="BASE理论"><a href="#BASE理论" class="headerlink" title="BASE理论"></a>BASE理论</h2><p>BASE理论是对CAP的一种解决思路，包含三个思想：</p>
+<ul>
+<li><strong>B</strong>asically <strong>A</strong>vailable（基本可用）：分布式系统在出现故障时，<strong>允许损失部分可用性</strong>，即保证核心可用</li>
+<li><strong>S</strong>oft State（软状态）：在一定时间内，<strong>允许出现中间状态</strong>，比如临时的不一致状态</li>
+<li><strong>E</strong>ventually Consistency（最终一致性）：虽然无法保证强一致性，但是在软状态结束后，<strong>最终达到数据一致</strong></li>
+</ul>
+<p>简单来说，<strong>BASE理论就是一种取舍的方案，不再追求完美，而是最终达成目标</strong>。因此解决分布式事务的思想也是这样，有两个方向：</p>
+<ul>
+<li>AP思想：<strong>各个子事务分别执行和提交，无需锁定数据</strong>。允许出现结果不一致，然后采用弥补措施恢复，实现最终一致即可。例如<code>AT</code>模式就是如此</li>
+<li>CP思想：<strong>各个子事务执行后不要提交，而是等待彼此结果，然后同时提交或回滚</strong>。在这个过程中锁定资源，不允许其它人访问，数据处于不可用状态，但能保证一致性。例如<code>XA</code>模式</li>
+</ul>
+<h2 id="AT模式的脏写问题"><a href="#AT模式的脏写问题" class="headerlink" title="AT模式的脏写问题"></a>AT模式的脏写问题</h2><p>先回顾一下AT模式的流程，AT模式也分为两个阶段：</p>
+<p>第一阶段是记录数据快照，执行并提交事务：</p>
+<img src="/img/loading.gif" data-original="/img/微服务assests/1f905adc-c231-4e0c-8ad2-a0c400827cb3.png" alt="1f905adc-c231-4e0c-8ad2-a0c400827cb3" style="zoom: 67%;" />
+
+<p>第二阶段根据阶段一的结果来判断：</p>
+<ul>
+<li>如果每一个分支事务都成功，则事务已经结束（因为阶段一已经提交），因此删除阶段一的快照即可</li>
+<li>如果有任意分支事务失败，则需要根据快照恢复到更新前数据。然后删除快照</li>
+</ul>
+<img src="/img/loading.gif" data-original="/img/微服务assests/bf4073ce-66bf-49f4-8395-b564a768365c.png" alt="bf4073ce-66bf-49f4-8395-b564a768365c" style="zoom:67%;" />
+
+
+
+
+
+<p>这种模式在大多数情况下（99%）并不会有什么问题，不过在极端情况下，特别是多线程并发访问AT模式的分布式事务时，有可能出现脏写问题，如图：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/651420a2-4ae7-4f5f-acf5-952a4749fd72.png" alt="651420a2-4ae7-4f5f-acf5-952a4749fd72"></p>
+<p>解决思路就是引入了**<font color='red'>全局锁</font>**的概念。在释放DB锁之前，先拿到全局锁。避免同一时刻有另外一个事务来操作当前数据</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/cc2c985f-db9a-457d-889f-f7b876df81a6.png" alt="cc2c985f-db9a-457d-889f-f7b876df81a6"></p>
+<p>具体可以参考官方文档：<a target="_blank" rel="noopener" href="https://seata.apache.org/zh-cn/docs/dev/mode/at-mode/">Seata AT 模式 | Apache Seata</a></p>
+<p>以上的解决思路是在事务1和事务2都被Seata管理的情况下。假设存在另一种场景，事务1由Seata管理，而事务2却没有，在这种情况下，Seata也给出了解决方案：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/PixPin_2025-12-01_13-28-17.png" alt="PixPin_2025-12-01_13-28-17"></p>
+<blockquote>
+<p>在事务前先记录一次原始数据的快照，在恢复快照前再记录一次最新数据的快照，对比两次快照可以发现数据不一致。说明在事务的二阶段前，有其他事务进行了数据的操作，那么此时就需要人工进行介入了（属于兜底方案，发生概率很低）</p>
+</blockquote>
+<h2 id="TCC模式"><a href="#TCC模式" class="headerlink" title="TCC模式"></a>TCC模式</h2><p>TCC模式与AT模式非常相似，每阶段都是独立事务，不同的是<strong>TCC通过人工编码来实现数据恢复</strong>。需要实现三个方法：</p>
+<ul>
+<li><code>try</code>：资源的检测和预留； </li>
+<li><code>confirm</code>：完成资源操作业务；要求 <code>try</code> 成功 <code>confirm</code> 一定要能成功。 </li>
+<li><code>cancel</code>：预留资源释放，可以理解为try的反向操作。</li>
+</ul>
+<h3 id="TCC模式原理"><a href="#TCC模式原理" class="headerlink" title="TCC模式原理"></a>TCC模式原理</h3><p>举例：一个扣减用户余额的业务。假设账户A原来余额是100元，需要余额扣减30元</p>
+<ul>
+<li><strong>阶段一（Try）</strong>：检查余额是否充足，如果充足则<strong>冻结金额增加30元</strong>，可用余额扣除30元</li>
+</ul>
+<p>如图，初始余额如下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/cb9262d8-c346-4796-a014-6af20a4d839c.png" alt="cb9262d8-c346-4796-a014-6af20a4d839c"></p>
+<p>余额充足，可以冻结：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/4376dc0b-769d-4a24-b2d2-ef78336697c3.png" alt="4376dc0b-769d-4a24-b2d2-ef78336697c3"></p>
+<p>此时，总金额 &#x3D; 冻结金额 + 可用金额，数量依然是100不变。事务直接提交无需等待其它事务</p>
+<ul>
+<li><strong>阶段二（Confirm）</strong>：假如要提交（Confirm），之前可用金额已经扣减，并转移到冻结金额。因此可用金额不变，<font color='red'>直接冻结金额扣减30即可</font></li>
+</ul>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/922d1c6b-ea3a-44f6-b77f-95b0c715dbd7.png" alt="922d1c6b-ea3a-44f6-b77f-95b0c715dbd7"></p>
+<p>此时，总金额 &#x3D; 冻结金额 + 可用金额 &#x3D; 0 + 70  &#x3D; 70元</p>
+<ul>
+<li><strong>阶段二（Cancel）</strong>：如果要回滚（Cancel），则释放之前冻结的金额，也就是<font color='red'>冻结金额扣减30，可用余额增加30</font></li>
+</ul>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/290552b0-39cf-45e3-8cd9-2a6351b79403.png" alt="290552b0-39cf-45e3-8cd9-2a6351b79403"></p>
+<p>简单来说，<strong>TCC通过阶段一资源的预留，阶段二对预留资源进行操作，所以无需加锁对性能产生影响</strong></p>
+<p>下图是TCC模式的工作模型：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/PixPin_2025-12-01_13-51-49.png" alt="PixPin_2025-12-01_13-51-49"></p>
+<h3 id="事务悬挂和空回滚"><a href="#事务悬挂和空回滚" class="headerlink" title="事务悬挂和空回滚"></a>事务悬挂和空回滚</h3><p>假如一个分布式事务中包含两个分支事务，try阶段，一个分支成功执行，另一个分支事务<strong>阻塞</strong>：</p>
+<img src="/img/loading.gif" data-original="/img/微服务assests/fd5368b7-5bd6-4a00-bdaf-fdfd81a99b7c.png" alt="fd5368b7-5bd6-4a00-bdaf-fdfd81a99b7c" style="zoom:67%;" />
+
+
+
+<p>如果阻塞时间太长，可能导致全局事务超时而触发二阶段的<code>cancel</code>操作。两个分支事务都会执行cancel操作：</p>
+<img src="/img/loading.gif" data-original="/img/微服务assests/4325d059-c4dd-41ca-a333-c736ac2a43a9.png" alt="4325d059-c4dd-41ca-a333-c736ac2a43a9" style="zoom:67%;" />
+
+<p>要知道，其中一个分支是未执行<code>try</code>操作的，直接执行了<code>cancel</code>操作，反而会导致数据错误。因此，这种情况下，尽管<code>cancel</code>方法要执行，但其中不能做任何回滚操作，这就是<strong>空回滚</strong></p>
+<p>对于整个空回滚的分支事务，将来try方法阻塞结束依然会执行。但是整个全局事务其实已经结束了，因此永远不会再有confirm或cancel，也就是说这个事务执行了一半，处于<strong>悬挂状态</strong>，这就是业务悬挂问题</p>
+<p>以上问题都需要在编写try、cancel方法时处理</p>
+<h3 id="XA、AT、TCC对比"><a href="#XA、AT、TCC对比" class="headerlink" title="XA、AT、TCC对比"></a>XA、AT、TCC对比</h3><p>XA模式：</p>
+<ul>
+<li>✅ 实现简单，学习成本低</li>
+<li>✅ 强一致性保证</li>
+<li>❌ 性能较差，资源锁定时间长</li>
+</ul>
+<p>AT模式：</p>
+<ul>
+<li>✅ 无业务侵入，开发简单</li>
+<li>✅ 性能较好</li>
+<li>❌ 一致性保证相对较弱</li>
+</ul>
+<p>TCC模式：</p>
+<ul>
+<li>✅ 性能最优，控制精细</li>
+<li>✅ 最终一致性可控</li>
+<li>❌ 开发复杂度最高</li>
+</ul>
+<p>选择建议：</p>
+<ul>
+<li>新手团队或对一致性要求极高：选择 <code>XA</code> 模式</li>
+<li>快速开发且性能要求适中：选择 <code>AT</code> 模式  </li>
+<li>高性能核心业务且有经验团队：选择 <code>TCC</code> 模式</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>TCC模式的每个阶段是做什么的？</p>
+<ul>
+<li>Try：资源检查和预留</li>
+<li>Confirm：业务执行和提交</li>
+<li>Cancel：预留资源的释放</li>
+</ul>
+<p>TCC的优点是什么？</p>
+<ul>
+<li>一阶段完成直接提交事务，释放数据库资源，性能好</li>
+<li>相比AT模型，无需生成快照，无需使用全局锁，性能最强</li>
+<li><strong>不依赖数据库事务</strong>，而是依赖补偿操作，<strong>可以用于非事务型数据库（比如Redis）</strong></li>
+</ul>
+<p>TCC的缺点是什么？</p>
+<ul>
+<li>有代码侵入，需要人为编写try、Confirm和Cancel接口，太麻烦</li>
+<li>软状态，事务是最终一致</li>
+<li>需要考虑Confirm和Cancel的失败情况，做好幂等处理、事务悬挂和空回滚处理</li>
+</ul>
+<h2 id="最大努力通知"><a href="#最大努力通知" class="headerlink" title="最大努力通知"></a>最大努力通知</h2><p>最大努力通知是一种<strong>最终一致性</strong>的分布式事务解决方案。顾名思义，就是通过消息通知的方式来通知事务参与者完成业务执行，如果执行失败会多次通知。无需任何分布式事务组件接入<img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/PixPin_2025-12-01_14-06-32.png" alt="PixPin_2025-12-01_14-06-32"></p>
+<blockquote>
+<p>实际上，最大努力通知也可以不依赖于消息中间件。比如服务二暴露一个接口，服务一执行完本地事务后调用服务二的接口，服务二执行完事务后再返回结果给服务一（不过耦合度会较高）</p>
+</blockquote>
+<h1 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h1><h2 id="环境隔离"><a href="#环境隔离" class="headerlink" title="环境隔离"></a>环境隔离</h2><p>企业实际开发中，往往会搭建多个运行环境，例如：开发环境、测试环境、发布环境。不同环境之间需要隔离。或者不同项目使用了同一套Naco，不同项目之间要做环境隔离</p>
+<blockquote>
+<p>类似于SpringBoot中的application.yaml，通过application-dev、application-test、applicaiton-local进行配置的隔离</p>
+</blockquote>
+<p>因此，Nacos提供了基于<code>namespace</code>的环境隔离功能。具体的隔离层次如图所示：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/b99645db-a07b-4f8a-9a1f-d274e34f6c5a.png" alt="b99645db-a07b-4f8a-9a1f-d274e34f6c5a"></p>
+<p>说明：</p>
+<ul>
+<li>Nacos中可以配置多个<code>namespace</code>，相互之间完全隔离。默认的<code>namespace</code>名为<code>public</code></li>
+<li><code>namespace</code>下还可以继续分组，也就是group ，相互隔离。 默认的group是<code>DEFAULT_GROUP</code></li>
+<li><code>group</code>之下就是服务和配置了</li>
+</ul>
+<h3 id="创建namespace"><a href="#创建namespace" class="headerlink" title="创建namespace"></a>创建namespace</h3><p>nacos提供了一个默认的<code>namespace</code>，叫做<code>public</code>：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/26bef30e-aeac-4735-8b63-57f6197c4aa8.png" alt="26bef30e-aeac-4735-8b63-57f6197c4aa8"></p>
+<p>默认所有的服务和配置都属于这个<code>namespace</code>，当然也可以自己创建新的<code>namespace</code>：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/ecf0c2b2-5a69-44a4-b319-8a8a09d8dce4.png" alt="ecf0c2b2-5a69-44a4-b319-8a8a09d8dce4"></p>
+<p>然后填写表单：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/7ef5d77c-fa5e-4d1c-b762-1b9448722173.png" alt="7ef5d77c-fa5e-4d1c-b762-1b9448722173"></p>
+<p>添加完成后，可以在页面看到新建的<code>namespace</code>，并且Nacos自动生成了一个命名空间id：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/8401c9af-2d1a-4b11-a897-c40a88ee1af9.png" alt="8401c9af-2d1a-4b11-a897-c40a88ee1af9"></p>
+<p>切换到配置列表页，会发现<code>dev</code>这个命名空间下没有任何配置：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/4387015f-3d6e-4d63-a3b1-67ee6558a10c.png" alt="4387015f-3d6e-4d63-a3b1-67ee6558a10c"></p>
+<p>因为之前添加的所有配置都在<code>public</code>下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/75459f23-ff28-4028-898f-77f005abdb48.png" alt="75459f23-ff28-4028-898f-77f005abdb48"></p>
+<h3 id="微服务配置namespace"><a href="#微服务配置namespace" class="headerlink" title="微服务配置namespace"></a>微服务配置namespace</h3><p>默认情况下，所有的微服务注册发现、配置管理都是走<code>public</code>这个命名空间。如果要指定命名空间则需要修改<code>application.yaml</code>文件。</p>
+<p>比如，修改<code>item-service</code>服务的bootstrap.yml文件，添加服务发现配置，指定其<code>namespace</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">item-service</span> <span class="comment"># 服务名称</span></span><br><span class="line">  <span class="attr">profiles:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="string">dev</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">server-addr:</span> <span class="number">192.168</span><span class="number">.150</span><span class="number">.101</span> <span class="comment"># nacos地址</span></span><br><span class="line">      <span class="attr">discovery:</span> <span class="comment"># 服务发现配置</span></span><br><span class="line">        <span class="attr">namespace:</span> <span class="string">8c468c63-b650-48da-a632-311c75e6d235</span> <span class="comment"># 设置namespace，必须用id</span></span><br><span class="line">      <span class="comment"># 。。。略</span></span><br></pre></td></tr></table></figure>
+
+<p>启动<code>item-service</code>，查看服务列表，会发现<code>item-service</code>出现在<code>dev</code>下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/28c275ed-6fa2-4c32-80ba-04e192afbaef.png" alt="28c275ed-6fa2-4c32-80ba-04e192afbaef"></p>
+<p>而其它服务则出现在<code>public</code>下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/bbfdf800-fe8d-4066-8417-5e8187fff7fa.png" alt="bbfdf800-fe8d-4066-8417-5e8187fff7fa"></p>
+<p>此时访问<code>http://localhost:8082/doc.html</code>，基于<code>swagger</code>做测试：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/15253cd4-b193-4301-8a35-a9b51686ab3d.png" alt="15253cd4-b193-4301-8a35-a9b51686ab3d"></p>
+<p>会发现查询结果中缺少商品的最新价格信息。</p>
+<p>查看服务运行日志：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/129523de-6ee1-466c-8ced-131300512847.png" alt="129523de-6ee1-466c-8ced-131300512847"></p>
+<p>会发现<code>cart-service</code>服务在远程调用<code>item-service</code>时，并没有找到可用的实例。这证明不同namespace之间确实是相互隔离的，不可访问</p>
+<p>当将<code>namespace</code>切换回<code>public</code>，或者统一都是以<code>dev</code>时访问恢复正常</p>
+<h2 id="分级模型"><a href="#分级模型" class="headerlink" title="分级模型"></a>分级模型</h2><p>在一些大型应用中，同一个服务可以部署很多实例。而这些实例可能分布在全国各地的不同机房。由于存在地域差异，网络传输的速度会有很大不同，因此在做服务治理时需要区分不同机房的实例</p>
+<p>例如item-service，可以部署3个实例：</p>
+<ul>
+<li>127.0.0.1:8081</li>
+<li>127.0.0.1:8082</li>
+<li>127.0.0.1:8083</li>
+</ul>
+<p>假如这些实例分布在不同机房，例如：</p>
+<ul>
+<li>127.0.0.1:8081，在上海机房</li>
+<li>127.0.0.1:8082，在上海机房</li>
+<li>127.0.0.1:8083，在杭州机房</li>
+</ul>
+<p>Nacos中提供了集群（<code>cluster</code>）的概念，来对应不同机房。也就是说，一个服务（<code>service</code>）下可以有很多集群（<code>cluster</code>），而一个集群（<code>cluster</code>）中下又可以包含很多实例（<code>instance</code>）</p>
+<p>如图：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/9253403b-4ff5-405b-83e4-8b7fe35a314e.png" alt="9253403b-4ff5-405b-83e4-8b7fe35a314e"></p>
+<p>因此，结合上一节学习的<code>namespace</code>命名空间的知识，任何一个微服务的实例在注册到Nacos时，都会生成以下几个信息，用来确认当前实例的身份，从外到内依次是：</p>
+<ul>
+<li>namespace：命名空间</li>
+<li>group：分组</li>
+<li>service：服务名</li>
+<li>cluster：集群</li>
+<li>instance：实例，包含ip和端口</li>
+</ul>
+<p>这就是nacos中的服务分级模型</p>
+<p>在Nacos内部会有一个服务实例的注册表，是基于Map实现的，其结构与分级模型的对应关系如下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/52c38437-1b84-4e23-8173-92a3f981dec7.png" alt="52c38437-1b84-4e23-8173-92a3f981dec7"></p>
+<p>查看nacos控制台，会发现默认情况下所有服务的集群都是default：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/0a67bc05-98c1-4580-83b4-2634c66d5662.png" alt="0a67bc05-98c1-4580-83b4-2634c66d5662"></p>
+<p>如果要修改服务所在集群，只需要修改<code>bootstrap.yml</code>即可：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">cluster-name:</span> <span class="string">BJ</span> <span class="comment"># 集群名称，自定义</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h2><p>Eureka是Netflix公司开源的一个服务注册中心组件，早期版本的SpringCloud都是使用Eureka作为注册中心。由于Eureka和Nacos的starter中提供的功能都是基于SpringCloudCommon规范，因此两者使用起来差别不大</p>
+<p>课前资料中提供了一个Eureka的demo：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/a35d2167-8735-4adf-9185-9191668a78b8.png" alt="a35d2167-8735-4adf-9185-9191668a78b8"></p>
+<p>用idea打开查看一下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/78cdcdbb-c7e2-484c-bd9f-1378b6ef083d.png" alt="78cdcdbb-c7e2-484c-bd9f-1378b6ef083d"></p>
+<p>结构说明：</p>
+<ul>
+<li><code>eureka-server</code>：Eureka的服务端，也就是注册中心。没错，Eureka服务端要自己创建项目</li>
+<li><code>order-service</code>：订单服务，是一个服务调用者，查询订单的时候要查询用户</li>
+<li><code>user-service</code>：用户服务，是一个服务提供者，对外暴露查询用户的接口</li>
+</ul>
+<blockquote>
+<p>JDK版本需要为1.8</p>
+</blockquote>
+<p>启动以后，访问<code>localhost:10086</code>即可查看到Eureka的控制台，相对于Nacos来说简陋了很多：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/ea747079-20e3-4aa4-ac27-4ae1901e131a.png" alt="ea747079-20e3-4aa4-ac27-4ae1901e131a"></p>
+<p>微服务引入Eureka的方式也极其简单，分两步：</p>
+<ul>
+<li>引入<code>eureka-client</code>依赖</li>
+<li>配置<code>eureka</code>地址</li>
+</ul>
+<p>接下来就是编写OpenFeign的客户端了</p>
+<h3 id="Eureka和Nacos对比"><a href="#Eureka和Nacos对比" class="headerlink" title="Eureka和Nacos对比"></a>Eureka和Nacos对比</h3><p>Eureka和Nacos都能起到注册中心的作用，用法基本类似。但还是有一些区别的，例如：</p>
+<ul>
+<li>Nacos支持配置管理，而Eureka则不支持。</li>
+</ul>
+<p>而且服务注册发现上也有区别，来做一个实验：</p>
+<p>停止<code>user-service</code>服务，然后观察Eureka控制台，会发现很长一段时间过去后，Eureka服务依然没有察觉<code>user-service</code>的异常状态。</p>
+<p>这与Eureka的健康检测机制有关。在Eureka中，健康检测的原理如下：</p>
+<ul>
+<li>微服务启动时注册信息到Eureka，这点与Nacos一致</li>
+<li><strong>微服务每隔30秒向Eureka发送心跳请求</strong>，报告自己的健康状态。<em>Nacos中默认是5秒一次</em></li>
+<li><strong>Eureka如果90秒未收到心跳，则认为服务疑似故障，可能被剔除</strong>。<em>Nacos中则是15秒超时，30秒剔除</em></li>
+<li><strong>Eureka如果发现超过85%比例的服务都心跳异常，会认为是自己的网络异常，暂停剔除服务的功能</strong></li>
+<li><strong>Eureka每隔60秒执行一次服务检测和清理任务</strong>；<em>Nacos是每隔5秒执行一次</em></li>
+</ul>
+<p>综上，会发现Eureka是<strong>尽量不剔除服务</strong>，避免“误杀”，宁可放过一千，也不错杀一个。这就导致当服务真的出现故障时，迟迟不会被剔除，给服务的调用者带来困扰</p>
+<p>不仅如此，当<strong>Eureka</strong>发现服务宕机并从服务列表中剔除以后，**<font color='red'>并不会将服务列表的变更消息推送给所有微服务</font>**。而是等待微服务自己来拉取时发现服务列表的变化。而微服务每隔30秒才会去Eureka更新一次服务列表，进一步推迟了服务宕机时被发现的时间</p>
+<p>而Nacos中微服务除了自己定时去Nacos中拉取服务列表以外，<strong>Nacos</strong>还会在服务列表变更时**<font color='red'>主动推送最新的服务列表给所有的订阅者</font>**</p>
+<p>综上，Eureka和Nacos的<strong>相似点</strong>有：</p>
+<ul>
+<li>都支持服务注册发现功能</li>
+<li>都有基于心跳的健康监测功能</li>
+<li>都支持集群，集群间数据同步默认是AP模式，即最全高可用性</li>
+</ul>
+<p>Eureka和Nacos的<strong>区别</strong>有：</p>
+<ul>
+<li>Eureka的心跳是30秒一次，Nacos则是5秒一次</li>
+<li>Eureka如果90秒未收到心跳，则认为服务疑似故障，可能被剔除。Nacos中则是15秒超时，30秒剔除。</li>
+<li>Eureka每隔60秒执行一次服务检测和清理任务；Nacos是每隔5秒执行一次。</li>
+<li>Eureka只能等微服务自己每隔30秒更新一次服务列表；Nacos即有定时更新，也有在服务变更时的广播推送</li>
+<li>Eureka仅有注册中心功能，而Nacos同时支持注册中心、配置管理</li>
+<li>Eureka和Nacos都支持集群，而且默认都是AP模式</li>
+</ul>
+<h1 id="远程调用"><a href="#远程调用" class="headerlink" title="远程调用"></a>远程调用</h1><h2 id="负载均衡原理"><a href="#负载均衡原理" class="headerlink" title="负载均衡原理"></a>负载均衡原理</h2><p>自SpringCloud2020版本开始，SpringCloud弃用Ribbon，改用Spring自己开源的Spring Cloud LoadBalancer了。OpenFeign、GateWay都已经与其整合</p>
+<p>OpenFeign在整合SpringCloudLoadBalancer时，与手动服务发现、负载均衡的流程类似：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/%E5%9B%BE%E7%89%871.png" alt="图片1"></p>
+<ol>
+<li>获取serviceId，也就是服务名称</li>
+<li>根据serviceId拉取服务列表</li>
+<li>利用负载均衡算法选择一个服务</li>
+<li>重构请求的URL路径，发起远程调用</li>
+</ol>
+<h3 id="源码跟踪"><a href="#源码跟踪" class="headerlink" title="源码跟踪"></a>源码跟踪</h3><p>首先，在<code>com.hmall.cart.service.impl.CartServiceImpl</code>中的<code>queryMyCarts</code>方法中打一个断点。然后在swagger页面请求购物车列表接口</p>
+<p>进入断点后，观察<code>ItemClient</code>这个接口：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/42e3e63c-c119-4885-a836-2e6b90d063f6.png" alt="42e3e63c-c119-4885-a836-2e6b90d063f6"></p>
+<p>会发现ItemClient是一个代理对象，而代理的处理器则是<code>SentinelInvocationHandler</code>。这是因为项目中引入了<code>Sentinel</code>导致</p>
+<p>进入<code>SentinelInvocationHandler</code>类中的<code>invoke</code>方法看看：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/0a095005-26a2-40c6-bdf8-23820bd580c7.png" alt="0a095005-26a2-40c6-bdf8-23820bd580c7"></p>
+<p>可以看到这里是先获取被代理的方法的处理器<code>MethodHandler</code>，接着，Sentinel就会开启对簇点资源的监控：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/f2ad3a6e-d581-404a-9c7f-4e62d551f1d6.png" alt="f2ad3a6e-d581-404a-9c7f-4e62d551f1d6"></p>
+<p>开启Sentinel的簇点资源监控后，就可以调用处理器了，尝试跟入，会发现有两种实现：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/79e93731-cce0-4341-a760-324f1700b80f.png" alt="79e93731-cce0-4341-a760-324f1700b80f"></p>
+<p>这其实就是OpenFeign远程调用的处理器了。继续跟入会进入<code>SynchronousMethodHandler</code>这个实现类：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/bc2a3ec9-ecec-46b9-8b41-fdaec7627684.png" alt="bc2a3ec9-ecec-46b9-8b41-fdaec7627684"></p>
+<p>在上述方法中，会循环尝试调用<code>executeAndDecode()</code>方法，直到成功或者是重试次数达到Retryer中配置的上限</p>
+<p>继续跟入<code>executeAndDecode()</code>方法：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/e3696e40-4e8d-4b80-8060-9bb95e058ebb.png" alt="e3696e40-4e8d-4b80-8060-9bb95e058ebb"></p>
+<p><code>executeAndDecode()</code>方法最终会利用<code>client</code>去调用<code>execute()</code>方法，发起远程调用</p>
+<p>这里的client的类型是<code>feign.Client</code>接口，其下有很多实现类：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/095824f7-c10e-4692-9f01-0ba335d0999d.png" alt="095824f7-c10e-4692-9f01-0ba335d0999d"></p>
+<p>由于项目中整合了seata，所以这里client对象的类型是<code>SeataFeignBlockingLoadBalancerClient</code>，内部实现如下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/7d029eb9-8d12-48df-b98b-23e5d160b6d0.png" alt="7d029eb9-8d12-48df-b98b-23e5d160b6d0"></p>
+<p>这里直接调用了其父类，也就是<code>FeignBlockingLoadBalancerClient</code>的<code>execute</code>方法，来看一下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/9bde006e-9f61-4136-84e0-f0dfa06dfee5.png" alt="9bde006e-9f61-4136-84e0-f0dfa06dfee5"></p>
+<p>整段代码中核心的有4步：</p>
+<ul>
+<li>从请求的<code>URI</code>中找出<code>serviceId</code></li>
+<li>利用<code>loadBalancerClient</code>，根据<code>serviceId</code>做负载均衡，选出一个实例<code>ServiceInstance</code></li>
+<li>用选中的<code>ServiceInstance</code>的<code>ip</code>和<code>port</code>替代<code>serviceId</code>，重构<code>URI</code></li>
+<li>向真正的URI发送请求</li>
+</ul>
+<p>所以负载均衡的关键就是这里的loadBalancerClient，类型是<code>org.springframework.cloud.client.loadbalancer.LoadBalancerClient</code>，这是<code>Spring-Cloud-Common</code>模块中定义的接口，只有一个实现类：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/49ff9e52-98de-4397-9b6b-0130617eddd6.png" alt="49ff9e52-98de-4397-9b6b-0130617eddd6"></p>
+<p>而这里的<code>org.springframework.cloud.client.loadbalancer.BlockingLoadBalancerClient</code>正是<code>Spring-Cloud-LoadBalancer</code>模块下的一个类：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/c20073ed-d4a7-46d0-abbb-c26655b8a189.png" alt="c20073ed-d4a7-46d0-abbb-c26655b8a189"></p>
+<p>继续跟入其<code>BlockingLoadBalancerClient#choose()</code>方法：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/b2d804e8-d710-4e38-af8d-f31618d93d42.png" alt="b2d804e8-d710-4e38-af8d-f31618d93d42"></p>
+<p>图中代码的核心逻辑如下：</p>
+<ul>
+<li>根据serviceId找到这个服务采用的负载均衡器（<code>ReactiveLoadBalancer</code>），也就是说我们可以给每个服务配不同的负载均衡算法。</li>
+<li>利用负载均衡器（<code>ReactiveLoadBalancer</code>）中的负载均衡算法，选出一个服务实例</li>
+</ul>
+<p><code>ReactiveLoadBalancer</code>是<code>Spring-Cloud-Common</code>组件中定义的负载均衡器接口规范，而<code>Spring-Cloud-Loadbalancer</code>组件给出了两个实现：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/1078ef5a-ecf5-4bb8-bf63-949c2452066d.png" alt="1078ef5a-ecf5-4bb8-bf63-949c2452066d"></p>
+<p>默认的实现是<code>RoundRobinLoadBalancer</code>，即<strong>轮询</strong>负载均衡器。负载均衡器的核心逻辑如下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/227f9ecc-609b-4e40-8db0-6067b8d0f95c.png" alt="227f9ecc-609b-4e40-8db0-6067b8d0f95c"></p>
+<p>核心流程就是两步：</p>
+<ul>
+<li>利用<code>ServiceInstanceListSupplier#get()</code>方法拉取服务的实例列表，这一步是采用响应式编程</li>
+<li>利用本类，也就是<code>RoundRobinLoadBalancer</code>的<code>getInstanceResponse()</code>方法挑选一个实例，这里采用了轮询算法来挑选</li>
+</ul>
+<p>这里的ServiceInstanceListSupplier有很多实现：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/42aa12d6-da27-44a7-b8c0-dab43b80978a.png" alt="42aa12d6-da27-44a7-b8c0-dab43b80978a"></p>
+<p>其中CachingServiceInstanceListSupplier采用了装饰模式，加了服务实例列表缓存，避免每次都要去注册中心拉取服务实例列表。而其内部是基于<code>DiscoveryClientServiceInstanceListSupplier</code>来实现的</p>
+<p>在这个类的构造函数中，就会异步的基于DiscoveryClient去拉取服务的实例列表：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/7604a5c6-4b81-46b7-8e8c-aa28d6f42870.png" alt="7604a5c6-4b81-46b7-8e8c-aa28d6f42870"></p>
+<h3 id="流程梳理"><a href="#流程梳理" class="headerlink" title="流程梳理"></a>流程梳理</h3><p>根据之前的分析，会发现Spring在整合OpenFeign的时候，实现了<code>org.springframework.cloud.openfeign.loadbalancer.FeignBlockingLoadBalancerClient</code>类，其中定义了OpenFeign发起远程调用的核心流程。也就是四步：</p>
+<ul>
+<li>获取请求中的<code>serviceId</code></li>
+<li>根据<code>serviceId</code>负载均衡，找出一个可用的服务实例</li>
+<li>利用服务实例的<code>ip</code>和<code>port</code>信息重构url</li>
+<li>向真正的url发起请求</li>
+</ul>
+<p>而具体的负载均衡则是不是由<code>OpenFeign</code>组件负责。而是分成了<strong>负载均衡的接口规范</strong>，以及<strong>负载均衡的具体实现</strong>两部分。</p>
+<p>负载均衡的接口规范是定义在<code>Spring-Cloud-Common</code>模块中，包含下面的接口：</p>
+<ul>
+<li><code>LoadBalancerClient</code>：负载均衡客户端，职责是根据serviceId最终负载均衡，选出一个服务实例</li>
+<li><code>ReactiveLoadBalancer</code>：负载均衡器，负责具体的负载均衡算法</li>
+</ul>
+<p>OpenFeign的负载均衡是基于<code>Spring-Cloud-Common</code>模块中的负载均衡规则接口，并没有写死具体实现。这就意味着以后还可以拓展其它各种负载均衡的实现。</p>
+<p>不过目前<code>SpringCloud</code>中只有<code>Spring-Cloud-Loadbalancer</code>这一种实现。</p>
+<p><code>Spring-Cloud-Loadbalancer</code>模块中，实现了<code>Spring-Cloud-Common</code>模块的相关接口，具体如下：</p>
+<ul>
+<li><code>BlockingLoadBalancerClient</code>：实现了<code>LoadBalancerClient</code>，会根据serviceId选出负载均衡器并调用其算法实现负载均衡。</li>
+<li><code>RoundRobinLoadBalancer</code>：基于轮询算法实现了<code>ReactiveLoadBalancer</code></li>
+<li><code>RandomLoadBalancer</code>：基于随机算法实现了<code>ReactiveLoadBalancer</code>，</li>
+</ul>
+<p>这样一来，整体思路就非常清楚了，流程图如下：</p>
+<img src="/img/loading.gif" data-original="/img/微服务assests/whiteboard_exported_image (28).png" alt="whiteboard_exported_image (28)" style="zoom:80%;" />
+
+
+
+<h2 id="NacosRule"><a href="#NacosRule" class="headerlink" title="NacosRule"></a>NacosRule</h2><p>之前分析源码的时候发现负载均衡的算法是有<code>ReactiveLoadBalancer</code>来定义的，它的实现类有三个：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/92e9f502-02c1-4e4b-800d-a389c1a4d253.png" alt="92e9f502-02c1-4e4b-800d-a389c1a4d253"></p>
+<p>其中<code>RoundRobinLoadBalancer</code>和<code>RandomLoadBalancer</code>是由<code>Spring-Cloud-Loadbalancer</code>模块提供的，而<code>NacosLoadBalancer</code>则是由<code>Nacos-Discorvery</code>模块提供的</p>
+<p>默认采用的负载均衡策略是<code>RoundRobinLoadBalancer</code>，那想要切换负载均衡策略该怎么办？</p>
+<h3 id="修改负载均衡策略"><a href="#修改负载均衡策略" class="headerlink" title="修改负载均衡策略"></a>修改负载均衡策略</h3><p>查看源码会发现，<code>Spring-Cloud-Loadbalancer</code>模块中有一个自动配置类：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/5b3ad301-159c-49c8-bfd0-85e550a4ed94.png" alt="5b3ad301-159c-49c8-bfd0-85e550a4ed94"></p>
+<p>其中定义了默认的负载均衡器：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/7d018dd5-80b5-4e17-9ce1-5510f6d4f936.png" alt="7d018dd5-80b5-4e17-9ce1-5510f6d4f936"></p>
+<p>这个Bean上添加了<code>@ConditionalOnMissingBean</code>注解，也就是说如果自定义了这个类型的bean，则负载均衡的策略就会被改变</p>
+<p>在<code>hm-cart</code>模块中的添加一个配置类：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/98f79632-7b6d-4b67-9990-4fd8e55e1807.png" alt="98f79632-7b6d-4b67-9990-4fd8e55e1807"></p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.hmall.cart.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.cloud.nacos.NacosDiscoveryProperties;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.cloud.nacos.loadbalancer.NacosLoadBalancer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.client.ServiceInstance;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.loadbalancer.core.ReactorLoadBalancer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.core.env.Environment;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OpenFeignConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> ReactorLoadBalancer&lt;ServiceInstance&gt; <span class="title function_">reactorServiceInstanceLoadBalancer</span><span class="params">(</span></span><br><span class="line"><span class="params">            Environment environment, NacosDiscoveryProperties properties,</span></span><br><span class="line"><span class="params">            LoadBalancerClientFactory loadBalancerClientFactory)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NacosLoadBalancer</span>(</span><br><span class="line">                loadBalancerClientFactory.getLazyProvider(name, ServiceInstanceListSupplier.class), name, properties);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：<font color='red'>这个配置类千万不要加<code>@Configuration</code>注解，也不要被SpringBootApplication扫描到</font></p>
+<p>由于这个OpenFeignConfig没有加<code>@Configuration</code>注解，也就没有被Spring加载，因此是不会生效的。所以接下来，要在启动类上通过注解来声明这个配置</p>
+<p>有两种做法：</p>
+<ul>
+<li>全局配置：对所有服务生效</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@LoadBalancerClients(defaultConfiguration = OpenFeignConfig.class)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>局部配置：只对某个服务生效</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@LoadBalancerClients(&#123;</span></span><br><span class="line"><span class="meta">        @LoadBalancerClient(value = &quot;item-service&quot;, configuration = OpenFeignConfig.class)</span></span><br><span class="line"><span class="meta">&#125;)</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>选择全局配置：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/132508c1-88d1-4ef3-90ca-6995c79034e0.png" alt="132508c1-88d1-4ef3-90ca-6995c79034e0"></p>
+<p>DEBUG重启后测试，会发现负载均衡器的类型确实切换成功：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/a5dd058c-9ca5-43b7-a50c-5860af57cb43.png" alt="a5dd058c-9ca5-43b7-a50c-5860af57cb43"></p>
+<h3 id="集群优先"><a href="#集群优先" class="headerlink" title="集群优先"></a>集群优先</h3><p><code>RoundRobinLoadBalancer</code>是轮询算法，<code>RandomLoadBalancer</code>是随机算法，那么<code>NacosLoadBalancer</code>是什么负载均衡算法呢？</p>
+<p>通过源码来分析一下，先看第一部分：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/f192d702-9a38-495f-a5a0-2120fe354265.png" alt="f192d702-9a38-495f-a5a0-2120fe354265"></p>
+<p>这部分代码的大概流程如下：</p>
+<ul>
+<li>通过<code>ServiceInstanceListSupplier</code>获取服务实例列表</li>
+<li>获取<code>NacosDiscoveryProperties</code>中的<code>clusterName</code>，也就是yml文件中的配置，代表当前服务实例所在集群信息（参考<code>分级模型</code>这一节内容）</li>
+<li>然后利用stream的filter过滤找到被调用的服务实例中与当前服务实例<code>clusterName</code>一致的。简单来说就是<strong>服务调用者与服务提供者要在一个集群</strong></li>
+</ul>
+<p>为什么？</p>
+<p>假如现在有两个机房，都部署有<code>item-service</code>和<code>cart-service</code>服务：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/c429a9f9-17e1-490a-aa57-704b37027e20.png" alt="c429a9f9-17e1-490a-aa57-704b37027e20"></p>
+<p>假如这些服务实例全部都注册到了同一个Nacos。现在，杭州机房的<code>cart-service</code>要调用<code>item-service</code>，会拉取到所有机房的item-service的实例。调用时会出现两种情况：</p>
+<ul>
+<li>直接调用当前机房的<code>item-service</code></li>
+<li>调用其它机房的<code>item-service</code></li>
+</ul>
+<p>本机房调用几乎没有网络延迟，速度比较快。而跨机房调用，如果两个机房相距很远，会存在较大的网络延迟。因此，<strong>应该尽可能避免跨机房调用</strong>，优先本地集群调用：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/57cea13c-0134-40c7-88b7-af82970de0f9.png" alt="57cea13c-0134-40c7-88b7-af82970de0f9"></p>
+<p>现在的情况是这样的：</p>
+<ul>
+<li><code>cart-service</code>所在集群是<code>default</code></li>
+<li><code>item-service</code>的8081、8083所在集群的<code>default</code></li>
+<li><code>item-service</code>的8084所在集群是<code>BJ</code></li>
+</ul>
+<p><code>cart-service</code>访问<code>item-service</code>时，应该优先访问8081和8082，重启<code>cart-service</code>，测试一下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/181c4ebb-9658-4f1c-86cd-521d66d624bd.png" alt="181c4ebb-9658-4f1c-86cd-521d66d624bd"></p>
+<p>可以看到原本是3个实例，经过筛选后还剩下2个实例。</p>
+<p>查看Debug控制台：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/9928c4ef-b7ea-4ebe-a2ec-0c6c45709de8.png" alt="9928c4ef-b7ea-4ebe-a2ec-0c6c45709de8"></p>
+<p>同集群的实例还剩下两个，接下来就需要做负载均衡了，具体用的是什么算法呢？</p>
+<h3 id="权重配置"><a href="#权重配置" class="headerlink" title="权重配置"></a>权重配置</h3><p>继续跟踪<code>NacosLoadBalancer</code>源码：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/e62b966b-b968-46df-83ba-12e38297a77d.png" alt="e62b966b-b968-46df-83ba-12e38297a77d"></p>
+<p>那么问题来了， 这个权重是怎么配的呢？</p>
+<p>打开nacos控制台，进入<code>item-service</code>的服务详情页，可以看到每个实例后面都有一个<strong>编辑</strong>按钮：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/59727cc4-9c02-41f5-bea5-187464469793.png" alt="59727cc4-9c02-41f5-bea5-187464469793"></p>
+<p>点击，可以看到一个编辑表单：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/3a4c66d3-54ab-463a-80a3-c2d42126a5d0.png" alt="3a4c66d3-54ab-463a-80a3-c2d42126a5d0"></p>
+<p>将这里的权重修改为5：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/7dfd4127-0882-49e6-b80d-48e3b63d8fde.png" alt="7dfd4127-0882-49e6-b80d-48e3b63d8fde"></p>
+<p>访问10次购物车接口，可以发现大多数请求都访问到了8083这个实例</p>
+<h1 id="服务保护"><a href="#服务保护" class="headerlink" title="服务保护"></a>服务保护</h1><p>在SpringCloud的早期版本中采用的服务保护技术叫做<code>Hystix</code>，不过后来被淘汰，替换为<code>Spring Cloud Circuit Breaker</code>，其底层实现可以是<code>Spring Retry</code>和<code>Resilience4J</code></p>
+<p>不过在国内使用较多还是<code>SpringCloudAlibaba</code>中的<code>Sentinel</code>组件</p>
+<p>接下来就分析一下<code>Sentinel</code>组件的一些基本实现原理以及它与<code>Hystix</code>的差异</p>
+<h2 id="线程隔离"><a href="#线程隔离" class="headerlink" title="线程隔离"></a>线程隔离</h2><p>无论是Hystix还是Sentinel都支持线程隔离。不过其实现方式不同</p>
+<p>线程隔离有两种方式实现：</p>
+<ul>
+<li><strong>线程池隔离</strong>：给每个服务调用业务分配一个线程池，<strong>利用线程池本身实现隔离效果</strong></li>
+<li><strong>信号量隔离</strong>：不创建线程池，而是<strong>计数器模式</strong>，记录业务使用的线程数量，达到信号量上限时，禁止新的请求</li>
+</ul>
+<blockquote>
+<p>Sentinel的线程隔离就是基于信号量隔离实现的，而Hystix两种都支持，但默认是基于线程池隔离</p>
+</blockquote>
+<p>如图：</p>
+<img src="/img/loading.gif" data-original="/img/微服务assests/499f1a1e-91e2-4794-9c5a-dd2f59e9b231.jpg" alt="499f1a1e-91e2-4794-9c5a-dd2f59e9b231" style="zoom:80%;" />
+
+
+
+<p>两者的优缺点如下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/2893e14a-a523-4e57-878a-38581387af5e.png" alt="2893e14a-a523-4e57-878a-38581387af5e"></p>
+<p>面试题：Sentinel的线程隔离与Hystix的线程隔离有什么差别？</p>
+<p>答：</p>
+<p>线程隔离可以采用线程池隔离或者信号量隔离</p>
+<p>Hystix默认是基于线程池实现的线程隔离，每一个被隔离的业务都要创建一个独立的线程池，线程过多会带来额外的CPU开销，<strong>性能一般，但是隔离性更强</strong></p>
+<p>Sentinel则是基于信号量隔离的原理，这种方式不用创建线程池，<strong>性能较好，但是隔离性一般</strong></p>
+<h2 id="滑动窗口算法"><a href="#滑动窗口算法" class="headerlink" title="滑动窗口算法"></a>滑动窗口算法</h2><p>在熔断功能中，需要统计异常请求或慢请求比例，也就是计数。在限流的时候，要统计每秒钟的QPS，同样是计数。可见计数算法在熔断限流中的应用非常多。<strong>sentinel中采用的计数器算法就是<font color='red'>滑动窗口计数算法</font></strong></p>
+<h3 id="固定窗口计数"><a href="#固定窗口计数" class="headerlink" title="固定窗口计数"></a>固定窗口计数</h3><p>要了解滑动窗口计数算法，必须先知道固定窗口计数算法，其基本原理如图：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/87575099-5e28-41c2-bfdb-3dda657f0580.png" alt="87575099-5e28-41c2-bfdb-3dda657f0580"></p>
+<p>说明：</p>
+<ul>
+<li>将时间划分为多个窗口，窗口时间跨度称为<code>Interval</code>，本例中为1000ms；</li>
+<li>每个窗口维护1个计数器，每有1次请求就将计数器<code>+1</code>。限流就是设置计数器阈值，本例为3，图中红线标记</li>
+<li>如果计数器超过了限流阈值，则超出阈值的请求都被丢弃</li>
+</ul>
+<p>示例：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/1a979a2e-41a7-4be9-9973-a2790a36b687.png" alt="1a979a2e-41a7-4be9-9973-a2790a36b687"></p>
+<p>明：</p>
+<ul>
+<li>第1、2秒，请求数量都小于3，没问题</li>
+<li>第3秒，请求数量为5，超过阈值，超出的请求被拒绝</li>
+</ul>
+<p>但是考虑一种特殊场景，如图：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/42a300db-a33d-42c5-9a56-a119c0bbb608.png" alt="42a300db-a33d-42c5-9a56-a119c0bbb608"></p>
+<p>说明：</p>
+<ul>
+<li>假如在第5、6秒，请求数量都为3，没有超过阈值，全部放行</li>
+<li>但是，如果第5秒的三次请求都是在4.5<del>5秒之间进来；第6秒的请求是在5</del>5.5之间进来。那么从第4.5~5.之间就有6次请求！也就是说每秒的QPS达到了6，远超阈值</li>
+</ul>
+<p>这就是固定窗口计数算法的问题，它只能统计当前某1个时间窗的请求数量是否到达阈值，无法结合前后的时间窗的数据做综合统计</p>
+<h3 id="滑动窗口计数"><a href="#滑动窗口计数" class="headerlink" title="滑动窗口计数"></a>滑动窗口计数</h3><p>固定时间窗口算法中窗口有很多，其跨度和位置是与时间区间绑定，因此是很多固定不动的窗口。而滑动时间窗口算法中只包含1个固定跨度的窗口，但窗口是可移动动的，与时间区间无关</p>
+<p>具体规则如下：</p>
+<ul>
+<li>窗口时间跨度<code>Interval</code>大小固定，例如1秒</li>
+<li>时间区间跨度为<code>Interval / n</code> ，例如n&#x3D;2，则时间区间跨度为500ms（Sentinel内部默认就是2，可以修改）</li>
+<li>窗口会随着当前请求所在时间<code>currentTime</code>移动，窗口范围从<code>currentTime-Interval</code>时刻之后的第一个时区开始，到<code>currentTime</code>所在时区结束</li>
+</ul>
+<p>如图所示：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/028a1203-0dcc-49b1-9acd-0dba68c34637.png" alt="028a1203-0dcc-49b1-9acd-0dba68c34637"></p>
+<p>限流阈值依然为3，绿色小块就是请求，上面的数字是其<code>currentTime</code>值。</p>
+<ul>
+<li>在第1300ms时接收到一个请求，其所在时区就是1000~1500</li>
+<li>按照规则，currentTime-Interval值为300ms，300ms之后的第一个时区是500<del>1000，因此窗口范围包含两个时区：500</del>1000、1000~1500，也就是粉红色方框部分</li>
+<li>统计窗口内的请求总数，发现是3，未达到上限</li>
+</ul>
+<p>若第1400ms又来一个请求，会落在1000~1500时区，虽然该时区请求总数是3，但滑动窗口内总数已经达到4，因此该请求会被拒绝：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/fb8f97bc-8d4a-4fe6-8b6a-d7234d7fc6c9.png" alt="fb8f97bc-8d4a-4fe6-8b6a-d7234d7fc6c9"></p>
+<p>假如第1600ms又来的一个请求，处于1500<del>2000时区，根据算法，滑动窗口位置应该是1000</del>1500和1500~2000这两个时区，也就是向后移动：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/1e9dd3c3-9580-4b47-a2c1-71792f70146c.png" alt="1e9dd3c3-9580-4b47-a2c1-71792f70146c"></p>
+<p>这就是滑动窗口计数的原理，解决了之前所说的问题。而且<strong>滑动窗口内划分的时区越多，这种统计就越准确</strong></p>
+<h2 id="令牌桶算法"><a href="#令牌桶算法" class="headerlink" title="令牌桶算法"></a>令牌桶算法</h2><p>限流的另一种常见算法是令牌桶算法。Sentinel中的热点参数限流正是基于令牌桶算法实现的。其基本思路如图：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/efc3ffb8-5d7c-486d-a2dd-f731e8450390.png" alt="efc3ffb8-5d7c-486d-a2dd-f731e8450390"></p>
+<p>说明：</p>
+<ul>
+<li>以固定的速率生成令牌，存入令牌桶中，如果令牌桶满了以后，多余令牌丢弃</li>
+<li>请求进入后，必须先尝试从桶中获取令牌，获取到令牌后才可以被处理</li>
+<li>如果令牌桶中没有令牌，则请求等待或丢弃</li>
+</ul>
+<p>基于令牌桶算法，每秒产生的令牌数量基本就是QPS上限</p>
+<p>当然也有例外情况，例如：</p>
+<ul>
+<li>某一秒令牌桶中产生了很多令牌，达到令牌桶上限N，缓存在令牌桶中，但是这一秒没有请求进入。</li>
+<li>下一秒的前半秒涌入了超过2N个请求，之前缓存的令牌桶的令牌耗尽，同时这一秒又生成了N个令牌，于是总共放行了2N个请求。超出了设定的QPS阈值。</li>
+</ul>
+<p>因此，在使用令牌桶算法时，<strong>尽量不要将令牌上限设定到服务能承受的QPS上限</strong>。而是预留一定的波动空间，这样才能应对突发流量</p>
+<h2 id="漏桶算法"><a href="#漏桶算法" class="headerlink" title="漏桶算法"></a>漏桶算法</h2><p>漏桶算法与令牌桶相似，但在设计上<strong>更适合应对并发波动较大的场景</strong>，以解决令牌桶中的问题</p>
+<p>简单来说就是请求到达后不是直接处理，而是先放入一个队列。而后以固定的速率从队列中取出并处理请求。之所以叫漏桶算法，就是把请求看做水，队列看做是一个漏了的桶</p>
+<p>如图：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/cb6437b6-0491-49ab-a876-c673925222f5.png" alt="cb6437b6-0491-49ab-a876-c673925222f5"></p>
+<p>说明：</p>
+<ul>
+<li>将每个请求视作”水滴”放入”漏桶”进行存储；</li>
+<li>“漏桶”以固定速率向外”漏”出请求来执行，如果”漏桶”空了则停止”漏水”；</li>
+<li>如果”漏桶”满了则多余的”水滴”会被直接丢弃。</li>
+</ul>
+<p>漏桶的优势就是<strong>流量整型</strong>，桶就像是一个大坝，请求就是水。并发量不断波动，就如图水流时大时小，但都会被大坝拦住。而后大坝按照固定的速度放水，避免下游被洪水淹没</p>
+<p>因此，不管并发量如何波动，经过漏桶处理后的请求一定是相对平滑的曲线：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E5%BE%AE%E6%9C%8D%E5%8A%A1assests/0be46ef0-a625-4ab8-81ec-098c45e4cc6b.png" alt="0be46ef0-a625-4ab8-81ec-098c45e4cc6b"></p>
+<p>sentinel中的限流中的排队等待功能正是基于漏桶算法实现的</p>
+<h2 id="Sentinel和Gateway限流区别"><a href="#Sentinel和Gateway限流区别" class="headerlink" title="Sentinel和Gateway限流区别"></a>Sentinel和Gateway限流区别</h2><p>限流算法常见的有三种实现：滑动时间窗口、令牌桶算法、漏桶算法。Gateway则采用了基于Redis实现的令牌桶算法，而Sentinel内部却比较复杂：</p>
+<ul>
+<li>默认限流模式是基于滑动窗口算法，另外Sentinel中断路器的计数也是基于滑动窗口算法</li>
+<li>限流后可以快速失败和排队等待，其中排队等待基于漏桶算法</li>
+<li>而热点参数限流则是基于令牌桶算法</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Zhao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://norlcyan.netlify.app">https://norlcyan.netlify.app</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Norlcyan's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a><a class="post-meta__tags" href="/tags/SpringCloud/">SpringCloud</a><a class="post-meta__tags" href="/tags/Nacos/">Nacos</a><a class="post-meta__tags" href="/tags/CAP%E5%AE%9A%E7%90%86/">CAP定理</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/archives/96a41905.html" title="SpringCloud"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-16</div><div class="title">SpringCloud</div></div></a></div><div><a href="/archives/d48132d3.html" title="ElasticSearch"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-16</div><div class="title">ElasticSearch</div></div></a></div><div><a href="/archives/8d9a091c.html" title="Seata"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-16</div><div class="title">Seata</div></div></a></div><div><a href="/archives/1408c19.html" title="Sentinel"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-16</div><div class="title">Sentinel</div></div></a></div><div><a href="/archives/b543ced0.html" title="RabbitMQ"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-16</div><div class="title">RabbitMQ</div></div></a></div><div><a href="/archives/2040d45d.html" title="Canal"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-16</div><div class="title">Canal</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Zhao</div><div class="author-info__description">人生最遗憾的，莫过于，轻易地放弃了不该放弃的，固执地，坚持了不该坚持的。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">142</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Noober-jpg"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如有侵权文章，可以加我QQ：3481765114通知我</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.</span> <span class="toc-text">分布式事务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CAP%E5%AE%9A%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">CAP定理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Consistency"><span class="toc-number">1.1.1.</span> <span class="toc-text">Consistency</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Availability"><span class="toc-number">1.1.2.</span> <span class="toc-text">Availability</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Partition-tolerance"><span class="toc-number">1.1.3.</span> <span class="toc-text">Partition tolerance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E8%80%85%E9%97%B4%E7%9A%84%E7%9F%9B%E7%9B%BE"><span class="toc-number">1.1.4.</span> <span class="toc-text">三者间的矛盾</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BASE%E7%90%86%E8%AE%BA"><span class="toc-number">1.2.</span> <span class="toc-text">BASE理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F%E7%9A%84%E8%84%8F%E5%86%99%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">AT模式的脏写问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCC%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">TCC模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCC%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86"><span class="toc-number">1.4.1.</span> <span class="toc-text">TCC模式原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E6%82%AC%E6%8C%82%E5%92%8C%E7%A9%BA%E5%9B%9E%E6%BB%9A"><span class="toc-number">1.4.2.</span> <span class="toc-text">事务悬挂和空回滚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XA%E3%80%81AT%E3%80%81TCC%E5%AF%B9%E6%AF%94"><span class="toc-number">1.4.3.</span> <span class="toc-text">XA、AT、TCC对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%A4%A7%E5%8A%AA%E5%8A%9B%E9%80%9A%E7%9F%A5"><span class="toc-number">1.5.</span> <span class="toc-text">最大努力通知</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-number">2.</span> <span class="toc-text">注册中心</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%9A%94%E7%A6%BB"><span class="toc-number">2.1.</span> <span class="toc-text">环境隔离</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAnamespace"><span class="toc-number">2.1.1.</span> <span class="toc-text">创建namespace</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AEnamespace"><span class="toc-number">2.1.2.</span> <span class="toc-text">微服务配置namespace</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E7%BA%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">分级模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Eureka"><span class="toc-number">2.3.</span> <span class="toc-text">Eureka</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Eureka%E5%92%8CNacos%E5%AF%B9%E6%AF%94"><span class="toc-number">2.3.1.</span> <span class="toc-text">Eureka和Nacos对比</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">远程调用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%8E%9F%E7%90%86"><span class="toc-number">3.1.</span> <span class="toc-text">负载均衡原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E8%B7%9F%E8%B8%AA"><span class="toc-number">3.1.1.</span> <span class="toc-text">源码跟踪</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86"><span class="toc-number">3.1.2.</span> <span class="toc-text">流程梳理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NacosRule"><span class="toc-number">3.2.</span> <span class="toc-text">NacosRule</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5"><span class="toc-number">3.2.1.</span> <span class="toc-text">修改负载均衡策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E4%BC%98%E5%85%88"><span class="toc-number">3.2.2.</span> <span class="toc-text">集群优先</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%83%E9%87%8D%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.3.</span> <span class="toc-text">权重配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4"><span class="toc-number">4.</span> <span class="toc-text">服务保护</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E9%9A%94%E7%A6%BB"><span class="toc-number">4.1.</span> <span class="toc-text">线程隔离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">滑动窗口算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E7%AA%97%E5%8F%A3%E8%AE%A1%E6%95%B0"><span class="toc-number">4.2.1.</span> <span class="toc-text">固定窗口计数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E8%AE%A1%E6%95%B0"><span class="toc-number">4.2.2.</span> <span class="toc-text">滑动窗口计数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95"><span class="toc-number">4.3.</span> <span class="toc-text">令牌桶算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95"><span class="toc-number">4.4.</span> <span class="toc-text">漏桶算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sentinel%E5%92%8CGateway%E9%99%90%E6%B5%81%E5%8C%BA%E5%88%AB"><span class="toc-number">4.5.</span> <span class="toc-text">Sentinel和Gateway限流区别</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/4c776360.html" title="EasyExcel（报表导出）">EasyExcel（报表导出）</a><time datetime="2026-01-16T09:04:36.000Z" title="发表于 2026-01-16 17:04:36">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/30ee4bff.html" title="XXL-JOB">XXL-JOB</a><time datetime="2026-01-16T08:58:34.000Z" title="发表于 2026-01-16 16:58:34">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/27717283.html" title="Jmeter快速入门">Jmeter快速入门</a><time datetime="2026-01-16T08:43:23.000Z" title="发表于 2026-01-16 16:43:23">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/2040d45d.html" title="Canal">Canal</a><time datetime="2026-01-16T08:30:26.000Z" title="发表于 2026-01-16 16:30:26">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/d48132d3.html" title="ElasticSearch">ElasticSearch</a><time datetime="2026-01-16T08:30:26.000Z" title="发表于 2026-01-16 16:30:26">2026-01-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Zhao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="/js/header_bg.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body></html>

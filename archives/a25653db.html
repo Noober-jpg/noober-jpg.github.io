@@ -1,0 +1,712 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>代码版本控制-Git | Norlcyan's Blog</title><meta name="author" content="Zhao"><meta name="copyright" content="Zhao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Git概述Git是一个分布式版本控制工具，主要用于管理开发过程中的源代码文件（Java文件、yml文件、xml文件等），在软件开发过程中被广泛使用 核心作用如下：  远程备份: Git允许你将代码库备份到远程服务器，以防止数据丢失。常见的远程备份方式包括使用GitHub、GitLab、Gitee等代码托管服务 多人协作: Git允许多个开发者在同一个代码库上协同工作。开发者可以共享代码、合并变更、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码版本控制-Git">
+<meta property="og:url" content="http://example.com/archives/a25653db.html">
+<meta property="og:site_name" content="Norlcyan&#39;s Blog">
+<meta property="og:description" content="Git概述Git是一个分布式版本控制工具，主要用于管理开发过程中的源代码文件（Java文件、yml文件、xml文件等），在软件开发过程中被广泛使用 核心作用如下：  远程备份: Git允许你将代码库备份到远程服务器，以防止数据丢失。常见的远程备份方式包括使用GitHub、GitLab、Gitee等代码托管服务 多人协作: Git允许多个开发者在同一个代码库上协同工作。开发者可以共享代码、合并变更、">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/avatar.jpg">
+<meta property="article:published_time" content="2026-01-15T11:15:20.000Z">
+<meta property="article:modified_time" content="2026-01-15T11:18:48.364Z">
+<meta property="article:author" content="Zhao">
+<meta property="article:tag" content="代码版本控制">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpg"><link rel="shortcut icon" href="/img/z.png"><link rel="canonical" href="http://example.com/archives/a25653db.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '代码版本控制-Git',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-01-15 19:18:48'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/footer.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/bodybg.css"><meta name="generator" content="Hexo 7.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">142</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Norlcyan's Blog"><span class="site-name">Norlcyan's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">代码版本控制-Git</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-15T11:15:20.000Z" title="发表于 2026-01-15 19:15:20">2026-01-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-15T11:18:48.364Z" title="更新于 2026-01-15 19:18:48">2026-01-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">项目开发工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="代码版本控制-Git"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="Git概述"><a href="#Git概述" class="headerlink" title="Git概述"></a>Git概述</h1><p>Git是一个分布式版本控制工具，主要用于管理开发过程中的源代码文件（Java文件、yml文件、xml文件等），在软件开发过程中被广泛使用</p>
+<p>核心作用如下：</p>
+<ul>
+<li><strong>远程备份</strong>: Git允许你将代码库备份到远程服务器，以防止数据丢失。常见的远程备份方式包括使用GitHub、GitLab、Gitee等代码托管服务</li>
+<li><strong>多人协作</strong>: Git允许多个开发者在同一个代码库上协同工作。开发者可以<strong>共享代码、合并变更、解决冲突</strong>等</li>
+<li><strong>代码回溯</strong>: 代码回溯是指在Git中返回到先前的代码状态或版本。对于修复错误或者恢复不小心删除的代码非常有用</li>
+<li><strong>版本切换</strong>: 在Git中，你可以通过切换分支或检出不同的提交来切换代码的版本。</li>
+</ul>
+<h1 id="Git安装"><a href="#Git安装" class="headerlink" title="Git安装"></a>Git安装</h1><p>官网下载地址：<a target="_blank" rel="noopener" href="https://git-scm.com/downloads/win">Git - Downloading Package</a></p>
+<p>Windows系统中使用<code>Git-版本号-64-bit.exe</code>这个应用程序用于安装Git，并且安装中不建议切换默认的安装路径（Git本体很小，且便于IDEA扫描Git所在位置）</p>
+<p>安装完成后在任意目录点击鼠标右键，点击<code>Open Git Bash here</code>即可通过命令行打开Git</p>
+<h1 id="Git工作流程"><a href="#Git工作流程" class="headerlink" title="Git工作流程"></a>Git工作流程</h1><p><img src="/img/loading.gif" data-original="/img/assests/32fcf2ac-acfe-4255-8aee-b57220ad7b7b.png" alt="32fcf2ac-acfe-4255-8aee-b57220ad7b7b"></p>
+<ul>
+<li>本地仓库：开发人员自己电脑上的Git仓库</li>
+<li>远程仓库：远程仓库上的Git仓库</li>
+</ul>
+<h1 id="Git全局配置"><a href="#Git全局配置" class="headerlink" title="Git全局配置"></a>Git全局配置</h1><ul>
+<li>设置用户信息（全局配置，只配置这一次，<strong>必须配置</strong>）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;用户邮箱&quot;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>上面设置的user.name和user.email是用户的身份标识，必须需要设置，不然后期的命令操作不了</li>
+<li>理论上身份标识可以任意设置，建议还是设置成自己的名字，方便识别是谁提交了代码</li>
+</ul>
+</blockquote>
+<ul>
+<li>查看配置信息：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --list</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Git常用命令"><a href="#Git常用命令" class="headerlink" title="Git常用命令"></a>Git常用命令</h1><p>常见的命令主要分为三大类：</p>
+<ul>
+<li>本地仓库命令</li>
+<li>远程仓库命令</li>
+<li>分支命令</li>
+</ul>
+<h2 id="本地仓库命令"><a href="#本地仓库命令" class="headerlink" title="本地仓库命令"></a>本地仓库命令</h2><h3 id="初始化本地仓库"><a href="#初始化本地仓库" class="headerlink" title="初始化本地仓库"></a>初始化本地仓库</h3><p>要使用Git对项目代码进行版本控制，首先需要初始化一个Git仓库。可以通过如下命令操作：</p>
+<ul>
+<li>初始化Git仓库：<code>git init</code></li>
+<li>具体操作步骤：<ol>
+<li>在任意目录下创建一个空目录</li>
+<li>进入这个空目录，右键鼠标并选择<code>Open Git Bash here</code>打开命令行窗口</li>
+<li>执行命令<code>git init</code></li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p>如果在目录中看到.git文件（隐藏文件）则说明Git仓库创建仓库</p>
+</blockquote>
+<h3 id="本地仓库相关概念"><a href="#本地仓库相关概念" class="headerlink" title="本地仓库相关概念"></a>本地仓库相关概念</h3><ul>
+<li>工作区：包含<code>.git</code>文件夹的目录就是工作区，也成为工作目录或工作空间，主要用于存放开发的代码</li>
+<li>版本库：<code>.git</code>隐藏文件夹就是版本库，版本库中存储了很多配置信息、日志信息和文件版本信息等</li>
+<li>暂存区：<code>.git</code>文件夹中有很多文件，其中有一个index文件就是暂存区，也可以叫stage。暂存区是一个临时保存修改文件的地方</li>
+</ul>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p><img src="/img/loading.gif" data-original="/img/assests/8a8d2c2e-55bb-4edc-81d3-ba13a1f5fb80.png" alt="8a8d2c2e-55bb-4edc-81d3-ba13a1f5fb80"></p>
+<ul>
+<li>查看文件状态<code>git status </code>：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<p>如果是第一次创建文件且没有进行任何操作，会提示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">On branch master</span><br><span class="line"></span><br><span class="line">No commits yet</span><br><span class="line"></span><br><span class="line">Untracked files:</span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to include <span class="keyword">in</span> what will be committed)</span><br><span class="line">        abc.txt</span><br><span class="line"></span><br><span class="line">nothing added to commit but untracked files present (use <span class="string">&quot;git add&quot;</span> to track)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>untracked ：未跟踪文件，说明当前文件还没有被git进行版本控制</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>把新增或修改的文件添加暂存区 <code>git add</code>：</p>
+<ul>
+<li><code>git add abc.txt</code>  把指定文件添加暂存区</li>
+<li><code>git add *</code>  或者   <code>git add .</code>  把当前目录及其子目录下的所有文件都添加暂存区</li>
+</ul>
+<p>提交成功后，再查看文件状态，就会提示：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">On branch master</span><br><span class="line"></span><br><span class="line">No commits yet</span><br><span class="line"></span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use <span class="string">&quot;git rm --cached &lt;file&gt;...&quot;</span> to unstage)</span><br><span class="line">        new file:   abc.txt</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>Changes to be committed ：待提交的更改内容，目前文件在暂存区，还未提交到本地仓库</li>
+</ul>
+</blockquote>
+<ul>
+<li>提交暂存区的文件到本地仓库 <code>git commit</code> ：<ul>
+<li>提交一个文件：<code>git commit -m &quot;第一次提交abc.txt文件到本地仓库&quot; abc.txt</code></li>
+<li>提交多个文件：<code>git commit -m &quot;第一次提交abc.txt文件到本地仓库&quot; *</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m <span class="string">&quot;第一次提交abc.txt文件到本地仓库&quot;</span> abc.txt</span><br><span class="line">[master (root-commit) 2d96ffd] 第一次提交abc.txt文件到本地仓库</span><br><span class="line"> 1 file changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line"> create mode 100644 abc.txt</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>-m</code>选项指定了提交信息（必须携带，需要知道这次提交的说明是什么，要尽可能简洁）	</p>
+</blockquote>
+<p>​	提交到本地仓库成功后，再查看文件状态，就会提示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">On branch master</span><br><span class="line">nothing to commit, working tree clean</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>nothing to commit, working tree clean：没有需要提交的更改，工作目录是干净的（提交完成的效果）</p>
+</blockquote>
+<ul>
+<li><p>查看详细的提交日志 <code>git log</code></p>
+</li>
+<li><p>查看简洁的日志：<code>git reflog</code></p>
+</li>
+<li><p>将暂存区取消暂存或切换到指定版本：<code>git reset</code></p>
+<ul>
+<li><p>将暂存区文件取消暂存</p>
+<ul>
+<li>再本地仓库中新建一个<code>123.txt</code>文件，然后执行命令<code>git add</code>将他提交到暂存区，可以使用<code>git reset</code>取消暂存</li>
+</ul>
+</li>
+<li><p>切换到指定版本</p>
+<ul>
+<li>可以先把abc.txt文件添加点内容，并且可以多提交几次到本地仓库，比如下面对abc.txt文件进行了三次提交</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> 第一次提交内容为空</span><br><span class="line"><span class="bullet">-</span> 第二次提交内容为：11111111</span><br><span class="line"><span class="bullet">-</span> 第三次提交内容为：22222222</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看历史版本，执行<code>git log</code>，其中<code>commit xxxxxxxxx</code>这一行很长的一串就是<strong>唯一版本号</strong></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">commit 2d96ffde80c6a913823637839063be1f97cc3dda</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>将abc.txt恢复到某一个指定版本：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard 2d96ffde80c6a913823637839063be1f97cc3dda</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>上面这条命令，<code>--hard</code>是指提交日志中的唯一版本号，执行成功后文件就会恢复到某个指定版本</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h4><ul>
+<li>忽略文件：项目代码中不需要纳入版本控制系统的文件，通常是一些**<font color='red'>编译文件</font>**和<font color='red'><strong>临时的缓存文件</strong></font>，把它们纳入版本控制系统中毫无意义</li>
+<li>忽略文件列表被存放在<strong>项目根</strong>目录中一个被称为**<font color='red'>.gitignore</font>**的文件中</li>
+<li>忽略文件规则：<ul>
+<li>忽略一个特定的文件：<code>path/file.ext</code></li>
+<li>忽略项目下所有这个名字的文件：<code>filename.ext</code></li>
+<li>忽略项目下所有这个类型的文件：<code>*.class</code></li>
+<li>忽略一个特定目录下的所有文件：<code>target/*</code></li>
+</ul>
+</li>
+<li>示例：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">.git</span><br><span class="line">logs</span><br><span class="line">rebel.xml</span><br><span class="line">target/</span><br><span class="line">!.mvn/wrapper/maven-wrapper.jar</span><br><span class="line">log.path_IS_UNDEFINED</span><br><span class="line">.DS_Store</span><br><span class="line">offline_user.md</span><br><span class="line">*.class</span><br><span class="line"></span><br><span class="line">### IntelliJ IDEA ###</span><br><span class="line">.idea</span><br><span class="line">*.iws</span><br><span class="line">*.ipr</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>项目中需要忽略的文件一般都是固定的，通常直接复制以上内容并进行适当修改即可</p>
+</blockquote>
+<h4 id="命令总结"><a href="#命令总结" class="headerlink" title="命令总结"></a>命令总结</h4><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查看文件状态</td>
+<td><code>git status</code></td>
+<td>显示工作区和暂存区的状态，包括未跟踪、已修改、已暂存等文件</td>
+</tr>
+<tr>
+<td>添加文件到暂存区</td>
+<td><code>git add &lt;file&gt;</code></td>
+<td>将指定文件添加到暂存区</td>
+</tr>
+<tr>
+<td>添加所有文件到暂存区</td>
+<td><code>git add .</code> 或 <code>git add *</code></td>
+<td>将当前目录及其子目录下的所有文件添加到暂存区</td>
+</tr>
+<tr>
+<td>提交文件到本地仓库</td>
+<td><code>git commit -m &quot;提交信息&quot; &lt;file&gt;</code></td>
+<td>将暂存区的文件提交到本地仓库，并附带提交说明</td>
+</tr>
+<tr>
+<td>提交所有暂存文件</td>
+<td><code>git commit -m &quot;提交信息&quot; *</code></td>
+<td>提交所有暂存区中的文件到本地仓库</td>
+</tr>
+<tr>
+<td>查看详细提交日志</td>
+<td><code>git log</code></td>
+<td>显示详细的提交历史记录，包括提交人、时间、信息和版本号</td>
+</tr>
+<tr>
+<td>查看简洁提交日志</td>
+<td><code>git reflog</code></td>
+<td>显示简洁的提交历史记录，便于快速查看操作历史</td>
+</tr>
+<tr>
+<td>取消暂存或切换版本</td>
+<td><code>git reset &lt;选项&gt; &lt;版本号&gt;</code></td>
+<td>可用于取消暂存文件或将代码恢复到指定版本</td>
+</tr>
+<tr>
+<td>取消暂存文件</td>
+<td><code>git reset</code></td>
+<td>将暂存区的文件移出暂存区，但保留工作区的更改</td>
+</tr>
+<tr>
+<td>切换到指定版本</td>
+<td><code>git reset --hard &lt;版本号&gt;</code></td>
+<td>将当前分支恢复到指定版本，工作区内容也会同步更新</td>
+</tr>
+</tbody></table>
+<h2 id="远程仓库命令"><a href="#远程仓库命令" class="headerlink" title="远程仓库命令"></a>远程仓库命令</h2><h3 id="远程仓库介绍"><a href="#远程仓库介绍" class="headerlink" title="远程仓库介绍"></a>远程仓库介绍</h3><p><img src="/img/loading.gif" data-original="/img/assests/aa455435-52c6-400b-a1a2-734723b9ad63.png" alt="aa455435-52c6-400b-a1a2-734723b9ad63"></p>
+<p>远程仓库的基本使用都是相同的，所以选择哪个远程仓库并不是重点</p>
+<p>Gitee操作流程：<a target="_blank" rel="noopener" href="https://dcnb1zlrk6z5.feishu.cn/wiki/HbkHwlqDui0ZEdkW6c6cblnEnBb">⁠‍‌‍‍‌‬‍⁠‌﻿﻿‌‬‌‌‌‌﻿‬第2章-项目前置课-代码版本控制Git - 飞书云文档</a></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-28_17-57-38.png" alt="Snipaste_2025-08-28_17-57-38"></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-28_17-59-38.png" alt="Snipaste_2025-08-28_17-59-38"></p>
+<blockquote>
+<p>这里的仓库地址后面提交项目时会用到</p>
+</blockquote>
+<h3 id="常用命令-1"><a href="#常用命令-1" class="headerlink" title="常用命令"></a>常用命令</h3><ol>
+<li><p>添加关联的远程仓库：<code>git remote add &lt;shortname&gt; &lt;url&gt;</code></p>
+<ul>
+<li>shortname：远程仓库的**<font color='red'>别名</font>**，统一叫做<code>origin</code></li>
+<li>url：远程仓库的地址</li>
+</ul>
+</li>
+<li><p>查看关联的远程仓库：<code>git remote [-v]</code></p>
+<ul>
+<li>如果要查看已经配置的远程仓库服务器，可以执行<code>git remote</code>命令，它会列出每一个远程服务器的简称</li>
+<li>如果已经关联了远程仓库，那么至少应该能看到origin，这是Git克隆的仓库服务器的默认名字</li>
+<li>本地仓库配置的远程仓库都需要一个简称，后续在和远程仓库交互时会使用到这个简称</li>
+<li>可以通过<code>-v</code>选项查看远程仓库更详细的信息</li>
+</ul>
+</li>
+<li><p>移除关联的远程仓库：<code>git remote remove &lt;shortname&gt;</code></p>
+<ul>
+<li>删除关联的远程仓库</li>
+</ul>
+</li>
+<li><p>往远程仓库推送：<code>git push &lt;shortname&gt; &lt;branch&gt;</code></p>
+<ul>
+<li>当关联到远程仓库后，就可以把本地仓库的代码或文件提交到远程仓库中</li>
+<li>注意，<code>git push</code>只能推送已经被<code>submit</code>过的代码或文件</li>
+<li>关于<code>&lt;branch&gt;</code>，意思是分支，后续内容会提到</li>
+<li>在使用<code>git push</code>命令将本地仓库的文件推送至远程仓库时，如果是第一次操作，需要进行**<font color='red'>身份认证</font>**，认证通过才可以推送</li>
+</ul>
+</li>
+<li><p>从远程仓库克隆：<code>git clone &lt;url&gt;</code></p>
+<ul>
+<li>克隆成功后，可以在目录中看到一个隐藏的文件夹<code>.git</code>和远程仓库中的所有文件</li>
+<li>Git克隆的是该Git仓库服务器上的几乎所有数据（包括<strong>文件</strong>、<strong>日志信息</strong>、<strong>历史记录</strong>等），而且克隆之后，该本地仓库就<strong>自动关联该远程仓库</strong></li>
+</ul>
+</li>
+<li><p>从远程仓库拉取：<code>git pull &lt;shortname&gt; &lt;branch&gt;</code></p>
+<ul>
+<li>git pull的作用是从远程仓库获取<strong>最新版本</strong>并合并到本地仓库</li>
+<li>注意：如果当前仓库不是从远程仓库克隆的，而是本地创建的仓库，并且仓库中存在新文件，此时再从远程仓库拉取文件的时候会报错（fatal：refusing to merge unrelated histories）。可以在<code>git pull</code>命令后加入参数<code>--allow-unrelated-histories</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="分支及命令"><a href="#分支及命令" class="headerlink" title="分支及命令"></a>分支及命令</h2><h3 id="分支概念"><a href="#分支概念" class="headerlink" title="分支概念"></a>分支概念</h3><ul>
+<li>分支是Git中一个非常重要的概念。使用分支意味着开发人员可以把工作从开发主线上分离开来，**<font color='red'>以免影响开发主线</font>**</li>
+<li>同一个仓库可以有多个分支，各个分支相互独立，互不干扰</li>
+<li>通过<code>git init</code>命令创建本地仓库时默认会创建一个<code>master</code>分支</li>
+</ul>
+<p><img src="/img/loading.gif" data-original="/img/assests/2256cbcb-c0c1-48dc-a326-25bf981f0d46.png" alt="2256cbcb-c0c1-48dc-a326-25bf981f0d46"></p>
+<p><code>HEAD</code>是一个特殊的引用（reference），它指向当前分支的最新提交（commit）。<code>HEAD</code>标识了当前分支中工作的挤出点，即你最近一次提交的地方</p>
+<p><strong>关键步骤流程如下：</strong></p>
+<ol>
+<li>创建分支：从主分支（如master）出发，创建一个新的分支（如v1）。这允许开发者在新的分支上自由地进行代码修改，而不必担心这些修改会立即影响到主分支或其他团队成员的工作</li>
+<li>独立开发：在v1分支上，开发者可以自由地编写代码、测试功能，甚至进行多次提交，所有这些操作都独立于主分支</li>
+<li>合并开发：当v1分支上的开发完成后，开发者可以选择将v1分支的更改合并回主分支。这确保了主分支能够包含所有最新的功能和修复，同时保持了代码的整洁和一致性</li>
+<li>灵活管理：Git的分支机制还允许开发者在需要时轻松地切换分支，比如从v1分支切换到master分支查看或处理其他事务，然后再切换回v1分支继续工作（HEAD的作用）</li>
+</ol>
+<h3 id="常见命令"><a href="#常见命令" class="headerlink" title="常见命令"></a>常见命令</h3><p>常见的分支操作命令有：</p>
+<ol>
+<li>查询分支</li>
+<li>创建分支</li>
+<li>切换分支</li>
+<li>将分支推送到远程仓库</li>
+<li>合并分支</li>
+</ol>
+<h4 id="查询分支"><a href="#查询分支" class="headerlink" title="查询分支"></a>查询分支</h4><ul>
+<li><code>git branch</code>：列出所有本地分支</li>
+<li><code>git branch -r</code>：列出所有远程分支</li>
+<li><code>git branch -a</code>：列出所有本地分支和远程分支</li>
+</ul>
+<h4 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支"></a>创建分支</h4><ul>
+<li>创建分支命令格式：<code>git branch 分支名称</code></li>
+</ul>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_11-38-03.png" alt="Snipaste_2025-08-29_11-38-03"></p>
+<h4 id="切换分支"><a href="#切换分支" class="headerlink" title="切换分支"></a>切换分支</h4><p>一个仓库中可以有多个分支，切换分支命令格式：<code>git checkout 分支名称</code></p>
+<h4 id="推送分支"><a href="#推送分支" class="headerlink" title="推送分支"></a>推送分支</h4><p>将本地分支推送到远程仓库中，命令格式：<code>git push &lt;shortname&gt; 分支名称</code></p>
+<p>推送完成后，可以在远程仓库中查看分支是否成功推送：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_11-41-11.png" alt="Snipaste_2025-08-29_11-41-11"></p>
+<h4 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h4><p>合并分支就是将两个分支的文件进行合并处理，命令格式：<code>git merge 分支命令</code></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/a573b71a-d752-4548-9ee1-4d7a50436b6f.png" alt="a573b71a-d752-4548-9ee1-4d7a50436b6f"></p>
+<p>查看master分支的本地仓库中，也出现了b1分支中添加的b1.txt文件</p>
+<blockquote>
+<p>注意：分支合并时需注意合并的方向，如上图所示，<strong>在master分支执行操作</strong>，结果就是将b1分支合并到master分支。</p>
+</blockquote>
+<h3 id="分支创建规则"><a href="#分支创建规则" class="headerlink" title="分支创建规则"></a>分支创建规则</h3><p>在项目开发中，遵守Git分支的创建规则通常是为了提高团队协作效率、代码质量以及版本管理的清晰度。以下是一些常见的Git分支创建规则：</p>
+<ol>
+<li>主分支（master）</li>
+</ol>
+<p>主分支是项目的稳定版本，用于发布和部署，只有经过严格测试和代码审核的代码才能被合并到主分支，通常命名为<font color='green'><code>master</code></font>，master分支以<font color='red'><code>tag</code></font>标记一个版本，因此master分支上看到的每一个tag都应该对应线上版本</p>
+<ol start="2">
+<li>开发分支（develop&#x2F;dev）</li>
+</ol>
+<p>开发分支是团队<strong>进行日常开发的主要分支</strong>，包含了项目中最新的功能和代码，通常命名为<font color='green'><code>develop</code></font>或<font color='green'><code>dev</code></font>，每个新功能或任务通常从该分支创建独立的特性分支进行开发</p>
+<ol start="3">
+<li>特性分支（feature）</li>
+</ol>
+<p>特性分支用于开发特定的功能，每个新功能或任务都应在<font color='red'>从<strong>develop</strong>分支创建</font>的<font color='green'><code>feature/xxx形式</code></font>的特性分支上进行开发和测试，开发完成后合并会develop分支并且删除该feature&#x2F;xxx分支</p>
+<ol start="4">
+<li>预发布分支（release）</li>
+</ol>
+<p>预发布分支用于准备发布新版本，进行最后的测试和调整，<font color='red'>从<strong>develop</strong>分支创建</font>以确保代码稳定，命名格式为<font color='green'><code>release/xxx</code></font>，其中<code>xxx</code>是具体的版本号，创建好<code>release</code>分支后需要对要发布的功能进行最后的测试，如果测试过程中若存在bug需要修复，则直接由开发者在release分支修复并提交。测试完成之后，将<code>release</code>分支合并到<code>master</code>和<code>develop</code>分支，此时master为最新代码，用作上线</p>
+<ol start="5">
+<li>修复分支（hotfix&#x2F;bugfix）</li>
+</ol>
+<p>修复分支用于解决线上紧急bug或修复已知问题，<font color='red'>从<strong>master</strong>分支创建</font>以确保修复代码直接应用于稳定版本，命名格式为<font color='green'><code>hotfix/xxx</code></font>或<font color="green"><code>bugfix/xxx</code></font>，完成bug修复后将代码合并到master分支和develop分支，合并完成后可以删除该分支</p>
+<p>以上就是在项目中应该出现的分支以及每个分支功能的说明，<font color='red'>其中长期稳定存在的分支只有 master 和 develop 分支</font>，别的分支在完成对应的使命之后都会合并到这两个分支然后被删除。简单总结如下：</p>
+<p>master 分支: 线上稳定版本分支</p>
+<p>develop 分支: 开发分支，衍生出 feature 分支和 release 分支</p>
+<p>feature 分支: 功能分支，完成特定功能开发的分支，存在多个，功能合并之后删除</p>
+<p>release 分支: 预发布分支，准备待发布版本的分支，存在多个，版本发布之后删除</p>
+<p>hotfix 分支: 紧急热修复分支，存在多个，紧急版本发布之后删除</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/whiteboard_exported_image.png" alt="whiteboard_exported_image"></p>
+<h2 id="版本冲突与解决"><a href="#版本冲突与解决" class="headerlink" title="版本冲突与解决"></a>版本冲突与解决</h2><h3 id="冲突产生的情况"><a href="#冲突产生的情况" class="headerlink" title="冲突产生的情况"></a>冲突产生的情况</h3><ul>
+<li><strong>多人同时修改同一文件</strong>：一个项目是由一个团队开发，如果多个开发人员<font color='red'>同时对同一个文件的相同部分进行修改</font>，并尝试提交这些修改时，Git无法自动合并这些更改，从而导致冲突。</li>
+<li><strong>合并分支时：</strong>当尝试将两个不同的分支合并到一个公共分支（如主分支）或者尝试将其他分支的代码合并到当前分支时，如果这些分支<font color='red'>对同一个文件进行了不同的修改</font>，Git在合并这些更改时可能会产生冲突。</li>
+<li><strong>重命名或移动文件</strong>：如果在一个分支中<font color='red'>重命名或移动了文件</font>，而在另一个分支中<font color='red'>对原始文件进行了修改</font>，那么在合并这些分支时可能会产生冲突。</li>
+<li><strong>删除文件</strong>：如果一个分支<font color='red'>删除了某个文件</font>，而另一个分支对该文件<font color='red'>进行了修改</font>，合并时也会发生冲突。</li>
+</ul>
+<h3 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h3><p>解决Git冲突通常需要手动干预，为了更好的演示冲突的问题，咱们可以手动制造一个冲突</p>
+<ul>
+<li>在master分支中，对abc.txt文件进行修改，在第2行添加内容，然后add  commit </li>
+<li>切换到b1分支中，对abc.txt文件进行修改，在第2行添加内容（与master不同），然后add commit</li>
+<li>执行合并分支的命令：git merge master  (从master分支合并到b1分支)，冲突就会产生</li>
+</ul>
+<p><img src="/img/loading.gif" data-original="/img/assests/c400adc7-1d3b-47db-87e6-09796f96b127.png" alt="c400adc7-1d3b-47db-87e6-09796f96b127"></p>
+<p>以下是一些常用的解决冲突步骤：</p>
+<ol>
+<li>查看冲突：<ul>
+<li>使用<code>git status</code>命令查看哪些文件存在冲突</li>
+<li>使用<code>git diff</code>命令查看冲突文件的差异</li>
+</ul>
+</li>
+</ol>
+<p><img src="/img/loading.gif" data-original="/img/assests/aed33427-590d-4a4a-b523-a6fe0b137d09.png" alt="aed33427-590d-4a4a-b523-a6fe0b137d09"></p>
+<ol start="2">
+<li><p>手动解决冲突：</p>
+<ul>
+<li>打开冲突文件，找到被Git标记的冲突部分。通常，Git会用<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>、<code>=======</code>和<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>这样的标记来指示冲突的开始、当前分支的更改、另一个分支的更改和冲突的结束</li>
+</ul>
+<p><img src="/img/loading.gif" data-original="/img/assests/84a22156-2462-442f-a99e-fd3f082dc8bb.png" alt="84a22156-2462-442f-a99e-fd3f082dc8bb"></p>
+<ul>
+<li><p>手动编辑冲突部分，根据需要保留或合并不同的更改</p>
+</li>
+<li><p>删除Git的冲突标记（<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>、<code>=======</code>、<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>）</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="/img/loading.gif" data-original="/img/assests/a895ac34-3406-497b-9eaa-32623c48548e.png" alt="a895ac34-3406-497b-9eaa-32623c48548e"></p>
+<ol start="3">
+<li>标记冲突已解决：<ul>
+<li>使用<code>git add</code>命令将解决冲突后的文件添加到暂存区，标记为冲突已解决</li>
+</ul>
+</li>
+<li>提交更改：<ul>
+<li>使用<code>git commit</code>命令提交解决冲突后的更改。在提交信息中，可以简要描述解决冲突的过程</li>
+<li><code>git commit -a -m &#39;解决冲突&#39; </code>   全部提交</li>
+<li><code>git commit abc.txt -i -m &quot;解决冲突&quot;  </code>    提交部分文件</li>
+</ul>
+</li>
+<li>（可选）继续合并或推送：<ul>
+<li>如果是在合并分支时产生的冲突，解决冲突后可以继续合并其他分支</li>
+<li>如果需要，将更改推送到远程仓库</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>解决冲突时，需仔细分析原因和上下文，确保选择正确方案。为减少冲突，建议<strong>保持良好沟通和协作</strong>，避免同时修改同一文件的同一个位置，频繁提交代码和定期合并分支也有助于及时发现和解决冲突</p>
+</blockquote>
+<h2 id="日常开发常见命令总结"><a href="#日常开发常见命令总结" class="headerlink" title="日常开发常见命令总结"></a>日常开发常见命令总结</h2><p><img src="/img/loading.gif" data-original="/img/assests/200cbb55-5d3c-4f84-bd79-a194a34f2618.png" alt="200cbb55-5d3c-4f84-bd79-a194a34f2618"></p>
+<p><strong>命令使用流程</strong></p>
+<ol>
+<li>进入项目团队先找直属领导开通远程仓库Git账号</li>
+<li>使用git clone命令克隆远程仓库的代码到本地的工作空间（首次使用，仅需一次）</li>
+<li>编写完代码后，使用git add命令添加暂存区</li>
+<li>使用git commit命令提交到本地仓库</li>
+<li>使用<strong>git pull</strong>命令拉取最新的代码，如有冲突需沟通解决</li>
+<li>使用git push推送到远程仓库</li>
+<li>不断重复3-6步</li>
+</ol>
+<h1 id="IDEA集成Git"><a href="#IDEA集成Git" class="headerlink" title="IDEA集成Git"></a>IDEA集成Git</h1><h2 id="本地初始化仓库"><a href="#本地初始化仓库" class="headerlink" title="本地初始化仓库"></a>本地初始化仓库</h2><p>在IDEA中通过如下操作可以在本地初始化一个本地仓库，其实底层就是执行了<code>git init</code>命令。操作过程如下：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_13-07-55.png" alt="Snipaste_2025-08-29_13-07-55"></p>
+<p>如果IDEA没有检测到Git，可以在设置中指定Git的可执行文件：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_13-32-29.png" alt="Snipaste_2025-08-29_13-32-29"></p>
+<p>初始化完毕后，如果项目中的文件颜色发生改变，并且<code>version control</code>变为了<code>master</code>就标识初始化成功：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_13-35-01.png" alt="Snipaste_2025-08-29_13-35-01"></p>
+<blockquote>
+<p>虽然初始化成功了，但是在IDEA中无法直接看到<code>.git</code>文件，可以进入资源管理器中查看</p>
+</blockquote>
+<h2 id="远程克隆仓库"><a href="#远程克隆仓库" class="headerlink" title="远程克隆仓库"></a>远程克隆仓库</h2><p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_13-39-14.png" alt="Snipaste_2025-08-29_13-39-14"></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_13-40-59.png" alt="Snipaste_2025-08-29_13-40-59"></p>
+<h2 id="本地仓库操作"><a href="#本地仓库操作" class="headerlink" title="本地仓库操作"></a>本地仓库操作</h2><h3 id="将文件加入缓存区"><a href="#将文件加入缓存区" class="headerlink" title="将文件加入缓存区"></a>将文件加入缓存区</h3><p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_13-47-46.png" alt="Snipaste_2025-08-29_13-47-46"></p>
+<blockquote>
+<p>也可以右键单个文件或文件夹，用于将指定的文件或文件夹添加到缓存区</p>
+<p>成功被添加到缓存区的文件名称会变为<font color='grenn'>绿色</font></p>
+</blockquote>
+<h3 id="将缓存区的文件提交到版本库"><a href="#将缓存区的文件提交到版本库" class="headerlink" title="将缓存区的文件提交到版本库"></a>将缓存区的文件提交到版本库</h3><p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_13-53-35.png" alt="Snipaste_2025-08-29_13-53-35"></p>
+<blockquote>
+<p>同样的，也可以对单个文件进行提交，不过选项会变为<code>Git &gt; Commit File</code></p>
+</blockquote>
+<p>点击后打开提交栏：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_13-55-29.png" alt="Snipaste_2025-08-29_13-55-29"></p>
+<p>也可以通过IDEA的工具类打开提交栏：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-02-16.png" alt="Snipaste_2025-08-29_14-02-16"></p>
+<blockquote>
+<p>在IDEA中，如果对文件进行过add后，当修改这个文件后，在提交栏中选择这个文件就可以点击<code>commit</code>按钮了，底层会自动执行<code>add</code> &gt; <code>commit</code>这个流程</p>
+</blockquote>
+<h3 id="查看日志信息"><a href="#查看日志信息" class="headerlink" title="查看日志信息"></a>查看日志信息</h3><p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-08-55.png" alt="Snipaste_2025-08-29_14-08-55"></p>
+<blockquote>
+<p>右键项目时，查看的是整个项目的提交日志</p>
+<p>右键文件时，查看的是具体文件的提交日志</p>
+</blockquote>
+<p><img src="/img/loading.gif" data-original="/img/assests/0cdb9941-9f10-4eb0-92d9-ffa6744b9a1e.png" alt="0cdb9941-9f10-4eb0-92d9-ffa6744b9a1e"></p>
+<h2 id="远程仓库操作"><a href="#远程仓库操作" class="headerlink" title="远程仓库操作"></a>远程仓库操作</h2><p>远程仓库操作：</p>
+<ul>
+<li>查看远程仓库，本质就是执行 git remote 命令</li>
+<li>添加远程仓库，本质就是执行 git remote add 命令</li>
+<li>推送至远程仓库，本质就是执行 git push 命令</li>
+<li>从远程仓库拉取，本质就是执行 git pull 命令</li>
+</ul>
+<h3 id="查看和添加远程仓库"><a href="#查看和添加远程仓库" class="headerlink" title="查看和添加远程仓库"></a>查看和添加远程仓库</h3><p>右键项目，找到【Git】–&gt;【Manage Remotes…】</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-14-57.png" alt="Snipaste_2025-08-29_14-14-57"></p>
+<p>添加远程仓库地址：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-16-46.png" alt="Snipaste_2025-08-29_14-16-46"></p>
+<h3 id="推送本地仓库至远程仓库"><a href="#推送本地仓库至远程仓库" class="headerlink" title="推送本地仓库至远程仓库"></a>推送本地仓库至远程仓库</h3><p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-24-58.png" alt="Snipaste_2025-08-29_14-24-58"></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-29-24.png" alt="Snipaste_2025-08-29_14-29-24"></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-29-57.png" alt="Snipaste_2025-08-29_14-29-57"></p>
+<h3 id="从远程仓库拉取代码"><a href="#从远程仓库拉取代码" class="headerlink" title="从远程仓库拉取代码"></a>从远程仓库拉取代码</h3><p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-33-42.png" alt="Snipaste_2025-08-29_14-33-42"></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-34-42.png" alt="Snipaste_2025-08-29_14-34-42"></p>
+<h2 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h2><ul>
+<li>查看分支，本质就是执行 <code>git branch</code> 命令</li>
+<li>创建分支，本质就是执行 <code>git branch 分支名</code> 命令</li>
+<li>切换分支，本质就是执行 <code>git checkout</code> 命令</li>
+<li>将分支推送到远程仓库，本质就是执行 <code>git push</code> 命令</li>
+<li>合并分支，本质就是执行 <code>git merge</code> 命令</li>
+</ul>
+<h3 id="创建分支-1"><a href="#创建分支-1" class="headerlink" title="创建分支"></a>创建分支</h3><p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-39-00.png" alt="Snipaste_2025-08-29_14-39-00"></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-41-37.png" alt="Snipaste_2025-08-29_14-41-37"></p>
+<p>创建完后的效果：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-43-22.png" alt="Snipaste_2025-08-29_14-43-22"></p>
+<blockquote>
+<p>前面有书签符号的分支就是当前所在的分支</p>
+</blockquote>
+<h3 id="切换分支-1"><a href="#切换分支-1" class="headerlink" title="切换分支"></a>切换分支</h3><p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-45-03.png" alt="Snipaste_2025-08-29_14-45-03"></p>
+<h3 id="推送分支-1"><a href="#推送分支-1" class="headerlink" title="推送分支"></a>推送分支</h3><p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-46-22.png" alt="Snipaste_2025-08-29_14-46-22"></p>
+<h3 id="合并分支-1"><a href="#合并分支-1" class="headerlink" title="合并分支"></a>合并分支</h3><p><img src="/img/loading.gif" data-original="/img/assests/Snipaste_2025-08-29_14-47-05.png" alt="Snipaste_2025-08-29_14-47-05"></p>
+<blockquote>
+<p>合并分支时，选择其他分支然后再点击<code>Merge xxx into xxx</code>，表示将其他分支合并到当前分支</p>
+</blockquote>
+<h2 id="解决冲突-1"><a href="#解决冲突-1" class="headerlink" title="解决冲突"></a>解决冲突</h2><p>在IDEA中产生冲突后，可以通过图形界面查看和解决，下图是产生冲突之后的效果展示：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/8d952752-a140-4a8c-8023-942d934601eb.png" alt="8d952752-a140-4a8c-8023-942d934601eb"></p>
+<ol>
+<li><strong>accept yours</strong>：这意味着在解决冲突时，你选择了<strong>保留你自己的更改</strong>，而忽略了他人的更改。换句话说，你决定使用你自己的代码版本，而不是合并其他人的更改。</li>
+<li><strong>accept theirs</strong>：这与”accept yours”相反，意味着你选择了<strong>接受他人的更改</strong>，而忽略了你自己的更改。在这个选项下，你决定采用他人的代码版本，而不是你自己的。</li>
+<li><strong>merge</strong>：这通常意味着你尝试<strong>手动解决冲突</strong>，将你和他人的更改结合起来。需要打开代码文件查看代码的不同部分，决定哪些更改应该保留，哪些应该丢弃，或者可能需要编写新的代码来融合两个版本。（<strong>推荐使用</strong>）</li>
+</ol>
+<p>点击<strong>Merge</strong>按钮：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/563c60f2-4df1-4d41-83a0-0ee0a0d17043.png" alt="563c60f2-4df1-4d41-83a0-0ee0a0d17043"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Zhao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://norlcyan.netlify.app">https://norlcyan.netlify.app</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Norlcyan's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/">代码版本控制</a><a class="post-meta__tags" href="/tags/Git/">Git</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Zhao</div><div class="author-info__description">人生最遗憾的，莫过于，轻易地放弃了不该放弃的，固执地，坚持了不该坚持的。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">142</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Noober-jpg"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如有侵权文章，可以加我QQ：3481765114通知我</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Git%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">Git概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Git%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">Git安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Git%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">Git工作流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Git%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">Git全局配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">5.</span> <span class="toc-text">Git常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%91%BD%E4%BB%A4"><span class="toc-number">5.1.</span> <span class="toc-text">本地仓库命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93"><span class="toc-number">5.1.1.</span> <span class="toc-text">初始化本地仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">5.1.2.</span> <span class="toc-text">本地仓库相关概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">5.1.3.</span> <span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BF%BD%E7%95%A5%E6%96%87%E4%BB%B6"><span class="toc-number">5.1.3.1.</span> <span class="toc-text">忽略文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93"><span class="toc-number">5.1.3.2.</span> <span class="toc-text">命令总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%91%BD%E4%BB%A4"><span class="toc-number">5.2.</span> <span class="toc-text">远程仓库命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E4%BB%8B%E7%BB%8D"><span class="toc-number">5.2.1.</span> <span class="toc-text">远程仓库介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-1"><span class="toc-number">5.2.2.</span> <span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E5%8F%8A%E5%91%BD%E4%BB%A4"><span class="toc-number">5.3.</span> <span class="toc-text">分支及命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E6%A6%82%E5%BF%B5"><span class="toc-number">5.3.1.</span> <span class="toc-text">分支概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4"><span class="toc-number">5.3.2.</span> <span class="toc-text">常见命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%88%86%E6%94%AF"><span class="toc-number">5.3.2.1.</span> <span class="toc-text">查询分支</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E6%94%AF"><span class="toc-number">5.3.2.2.</span> <span class="toc-text">创建分支</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E5%88%86%E6%94%AF"><span class="toc-number">5.3.2.3.</span> <span class="toc-text">切换分支</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E9%80%81%E5%88%86%E6%94%AF"><span class="toc-number">5.3.2.4.</span> <span class="toc-text">推送分支</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF"><span class="toc-number">5.3.2.5.</span> <span class="toc-text">合并分支</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E5%88%9B%E5%BB%BA%E8%A7%84%E5%88%99"><span class="toc-number">5.3.3.</span> <span class="toc-text">分支创建规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E5%86%B2%E7%AA%81%E4%B8%8E%E8%A7%A3%E5%86%B3"><span class="toc-number">5.4.</span> <span class="toc-text">版本冲突与解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%B2%E7%AA%81%E4%BA%A7%E7%94%9F%E7%9A%84%E6%83%85%E5%86%B5"><span class="toc-number">5.4.1.</span> <span class="toc-text">冲突产生的情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%86%B2%E7%AA%81"><span class="toc-number">5.4.2.</span> <span class="toc-text">解决冲突</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93"><span class="toc-number">5.5.</span> <span class="toc-text">日常开发常见命令总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IDEA%E9%9B%86%E6%88%90Git"><span class="toc-number">6.</span> <span class="toc-text">IDEA集成Git</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93"><span class="toc-number">6.1.</span> <span class="toc-text">本地初始化仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E5%85%8B%E9%9A%86%E4%BB%93%E5%BA%93"><span class="toc-number">6.2.</span> <span class="toc-text">远程克隆仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-number">6.3.</span> <span class="toc-text">本地仓库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E6%96%87%E4%BB%B6%E5%8A%A0%E5%85%A5%E7%BC%93%E5%AD%98%E5%8C%BA"><span class="toc-number">6.3.1.</span> <span class="toc-text">将文件加入缓存区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E7%BC%93%E5%AD%98%E5%8C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E6%8F%90%E4%BA%A4%E5%88%B0%E7%89%88%E6%9C%AC%E5%BA%93"><span class="toc-number">6.3.2.</span> <span class="toc-text">将缓存区的文件提交到版本库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97%E4%BF%A1%E6%81%AF"><span class="toc-number">6.3.3.</span> <span class="toc-text">查看日志信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-number">6.4.</span> <span class="toc-text">远程仓库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%92%8C%E6%B7%BB%E5%8A%A0%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="toc-number">6.4.1.</span> <span class="toc-text">查看和添加远程仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E9%80%81%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E8%87%B3%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="toc-number">6.4.2.</span> <span class="toc-text">推送本地仓库至远程仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E6%8B%89%E5%8F%96%E4%BB%A3%E7%A0%81"><span class="toc-number">6.4.3.</span> <span class="toc-text">从远程仓库拉取代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E6%93%8D%E4%BD%9C"><span class="toc-number">6.5.</span> <span class="toc-text">分支操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E6%94%AF-1"><span class="toc-number">6.5.1.</span> <span class="toc-text">创建分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E5%88%86%E6%94%AF-1"><span class="toc-number">6.5.2.</span> <span class="toc-text">切换分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E9%80%81%E5%88%86%E6%94%AF-1"><span class="toc-number">6.5.3.</span> <span class="toc-text">推送分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF-1"><span class="toc-number">6.5.4.</span> <span class="toc-text">合并分支</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%86%B2%E7%AA%81-1"><span class="toc-number">6.6.</span> <span class="toc-text">解决冲突</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/4c776360.html" title="EasyExcel（报表导出）">EasyExcel（报表导出）</a><time datetime="2026-01-16T09:04:36.000Z" title="发表于 2026-01-16 17:04:36">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/30ee4bff.html" title="XXL-JOB">XXL-JOB</a><time datetime="2026-01-16T08:58:34.000Z" title="发表于 2026-01-16 16:58:34">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/27717283.html" title="Jmeter快速入门">Jmeter快速入门</a><time datetime="2026-01-16T08:43:23.000Z" title="发表于 2026-01-16 16:43:23">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/2040d45d.html" title="Canal">Canal</a><time datetime="2026-01-16T08:30:26.000Z" title="发表于 2026-01-16 16:30:26">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/d48132d3.html" title="ElasticSearch">ElasticSearch</a><time datetime="2026-01-16T08:30:26.000Z" title="发表于 2026-01-16 16:30:26">2026-01-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Zhao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="/js/header_bg.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body></html>

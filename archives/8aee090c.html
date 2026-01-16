@@ -1,0 +1,397 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>接入华为云IOT平台 | Norlcyan's Blog</title><meta name="author" content="Zhao"><meta name="copyright" content="Zhao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="华为云IOT平台在开发智能监测功能之前，必须先熟悉和掌握华为云IoTDA平台的使用及对接 什么是物联网物联网（英文：Internet of Things，缩写：IoT）起源于传媒领域，是信息科技产业的第三次革命。物联网是指通过信息传感设备，按约定的协议，将任何物体与网络相连接，物体通过信息传播媒介进行信息交换和通信，以实现智能化识别、定位、跟踪、监管等功能 常见的应用场景：  共享充电宝 充电宝设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="接入华为云IOT平台">
+<meta property="og:url" content="http://example.com/archives/8aee090c.html">
+<meta property="og:site_name" content="Norlcyan&#39;s Blog">
+<meta property="og:description" content="华为云IOT平台在开发智能监测功能之前，必须先熟悉和掌握华为云IoTDA平台的使用及对接 什么是物联网物联网（英文：Internet of Things，缩写：IoT）起源于传媒领域，是信息科技产业的第三次革命。物联网是指通过信息传感设备，按约定的协议，将任何物体与网络相连接，物体通过信息传播媒介进行信息交换和通信，以实现智能化识别、定位、跟踪、监管等功能 常见的应用场景：  共享充电宝 充电宝设">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/avatar.jpg">
+<meta property="article:published_time" content="2026-01-15T06:01:55.000Z">
+<meta property="article:modified_time" content="2026-01-15T13:09:13.046Z">
+<meta property="article:author" content="Zhao">
+<meta property="article:tag" content="后端">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="IOT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpg"><link rel="shortcut icon" href="/img/z.png"><link rel="canonical" href="http://example.com/archives/8aee090c.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '接入华为云IOT平台',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-01-15 21:09:13'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/footer.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/bodybg.css"><meta name="generator" content="Hexo 7.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">142</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Norlcyan's Blog"><span class="site-name">Norlcyan's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">接入华为云IOT平台</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-15T06:01:55.000Z" title="发表于 2026-01-15 14:01:55">2026-01-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-15T13:09:13.046Z" title="更新于 2026-01-15 21:09:13">2026-01-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B9%B3%E5%8F%B0/">第三方平台</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="接入华为云IOT平台"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="华为云IOT平台"><a href="#华为云IOT平台" class="headerlink" title="华为云IOT平台"></a>华为云IOT平台</h1><p>在开发智能监测功能之前，必须先熟悉和掌握华为云IoTDA平台的使用及对接</p>
+<h2 id="什么是物联网"><a href="#什么是物联网" class="headerlink" title="什么是物联网"></a>什么是物联网</h2><p>物联网（英文：Internet of Things，缩写：IoT）起源于传媒领域，是信息科技产业的第三次革命。物联网是指通过信息传感设备，按约定的协议，将任何物体与网络相连接，物体通过信息传播媒介进行信息交换和通信，以实现智能化识别、定位、跟踪、监管等功能</p>
+<p>常见的应用场景：</p>
+<ul>
+<li>共享充电宝<ul>
+<li>充电宝设备接入物联网平台后，可上报充电宝电量和借用状态等信息到物联网平台云端。充电宝用户扫码后，云端低延时向充电宝下发指令，使其弹出。同时，企业运营者能够实时获知充电宝的运行状况</li>
+</ul>
+</li>
+<li>智能音箱 <ul>
+<li>播报音箱接入物联网平台后，用户扫码完成支付后，将支付金额实时通过音箱，向用户和商家进行语音播报</li>
+</ul>
+</li>
+<li>智能家居<ul>
+<li>智能家居技术已经成为当今家庭装潢的一大特色。比如，通过智能灯泡，可以实现远程控制灯光和电视等设备，调节温度和湿度，实现智能化生活</li>
+</ul>
+</li>
+<li>智能农耕<ul>
+<li>智能农耕可以通过物联网技术来监测、传输、分析、管理农业生产过程中的信息。比如作物的生长情况、土壤的状况等，以提高农业生产的效率，改善利润率，减少污染，节约农业资源</li>
+</ul>
+</li>
+<li>智能医疗<ul>
+<li>在智慧医疗中，可以捕捉人的生理状态信息，例如心跳频率、体力消耗、血压高低等。然后对采集数据进行备份、加工和分析，以便个人或医生快速查询。在物联网平台接入传感器设备，采集人体及周边环境参数的信息，通过数据服务处理数据后，反馈给用户</li>
+</ul>
+</li>
+</ul>
+<h2 id="华为云IoTDA简介"><a href="#华为云IoTDA简介" class="headerlink" title="华为云IoTDA简介"></a>华为云IoTDA简介</h2><p>产品文档：<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/iothub/index.html">成长地图_设备接入 IoTDA-华为云</a></p>
+<p>设备接入服务（IoTDA）是华为云的物联网平台，提供海量设备连接上云、设备和云端双向消息通信、批量设备管理、远程控制和监控、OTA升级、设备联动规则等能力，并可将设备数据灵活流转到华为云其他服务</p>
+<p>作为一个开发者，要熟悉基本的设备与后台调度的思路，如下：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/%E5%8D%8E%E4%B8%BAIOT1.PNG" alt="华为IOT1.PNG"></p>
+<h2 id="开通IoTDA"><a href="#开通IoTDA" class="headerlink" title="开通IoTDA"></a>开通IoTDA</h2><p><strong>注册华为云账号：前往<a target="_blank" rel="noopener" href="https://www.huaweicloud.com/">华为云官网</a>注册账号。如果已有注册账号，请跳过此步骤</strong></p>
+<h3 id="开通物联网平台"><a href="#开通物联网平台" class="headerlink" title="开通物联网平台"></a>开通物联网平台</h3><p>登录账号以后，在产品中搜索<strong>设备接入IoTDA</strong></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/b27ada9e-6974-4356-a5dc-00c62780efa0.png" alt="b27ada9e-6974-4356-a5dc-00c62780efa0"></p>
+<p>打开之后，点击<strong>开通免费单元</strong></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/9e8e5983-afa2-4cc9-ad9d-5a1fbb854ac5.png" alt="9e8e5983-afa2-4cc9-ad9d-5a1fbb854ac5"></p>
+<p>然后直接创建就可以了</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/31ba5a4e-61fc-40e0-bdb3-156cc3327668.png" alt="31ba5a4e-61fc-40e0-bdb3-156cc3327668"></p>
+<p>创建成功之后的效果：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/efcfd68a-09af-4103-b54c-edec1dc7fcde.png" alt="efcfd68a-09af-4103-b54c-edec1dc7fcde"></p>
+<p>可以点击服务查看服务的基本信息：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/4fbb7acd-8615-44cc-8f85-fb85ce36100e.png" alt="4fbb7acd-8615-44cc-8f85-fb85ce36100e"></p>
+<p>服务内部：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/4e915bfe-6dde-4df2-bc61-3a050f45f31a.png" alt="4e915bfe-6dde-4df2-bc61-3a050f45f31a"></p>
+<p>到此，IoTDA服务就正式开通了</p>
+<h2 id="产品"><a href="#产品" class="headerlink" title="产品"></a>产品</h2><h3 id="创建产品"><a href="#创建产品" class="headerlink" title="创建产品"></a>创建产品</h3><p>产品（<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/usermanual-iothub/iot_01_0015.html%EF%BC%89%EF%BC%9A%E6%9F%90%E4%B8%80%E7%B1%BB%E5%85%B7%E6%9C%89%E7%9B%B8%E5%90%8C%E8%83%BD%E5%8A%9B%E6%88%96%E7%89%B9%E5%BE%81%E7%9A%84%E8%AE%BE%E5%A4%87%E7%9A%84%E9%9B%86%E5%90%88%E7%A7%B0%E4%B8%BA%E4%B8%80%E6%AC%BE%E4%BA%A7%E5%93%81%E3%80%82%E5%B8%AE%E5%8A%A9%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%AB%E9%80%9F%E8%BF%9B%E8%A1%8C%E4%BA%A7%E5%93%81%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%8F%92%E4%BB%B6%E7%9A%84%E5%BC%80%E5%8F%91%EF%BC%8C%E5%90%8C%E6%97%B6%E6%8F%90%E4%BE%9B%E7%AB%AF%E4%BE%A7%E9%9B%86%E6%88%90%E3%80%81%E5%9C%A8%E7%BA%BF%E8%B0%83%E8%AF%95%E3%80%81%E8%87%AA%E5%AE%9A%E4%B9%89Topic%E7%AD%89%E5%A4%9A%E7%A7%8D%E8%83%BD%E5%8A%9B%E3%80%82%E6%AF%94%E5%A6%82%EF%BC%8C%E6%89%8B%E8%A1%A8%E3%80%81%E5%A4%A7%E9%97%A8%E9%80%9A%E9%81%93%E9%97%A8%E7%A6%81%E3%80%81%E7%B4%A7%E6%80%A5%E5%91%BC%E5%8F%AB%E6%8A%A5%E8%AD%A6%E5%99%A8%E3%80%81%E6%BB%9E%E7%95%99%E6%8A%A5%E8%AD%A6%E5%99%A8%E3%80%81%E8%B7%8C%E5%80%92%E6%8A%A5%E8%AD%A6%E5%99%A8%E7%AD%89">https://support.huaweicloud.com/usermanual-iothub/iot_01_0015.html）：某一类具有相同能力或特征的设备的集合称为一款产品。帮助开发者快速进行产品模型和插件的开发，同时提供端侧集成、在线调试、自定义Topic等多种能力。比如，手表、大门通道门禁、紧急呼叫报警器、滞留报警器、跌倒报警器等</a></p>
+<p>在平台上创建产品，找到产品–&gt;创建产品</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/d93bf271-7691-48d9-b72a-a108ee10c5cc.png" alt="d93bf271-7691-48d9-b72a-a108ee10c5cc"></p>
+<p>如下图，先创建<strong>智能定位报警手表</strong>的产品，输入信息如下：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/77b83e4f-05c1-428f-9c62-06693213bec6.png" alt="77b83e4f-05c1-428f-9c62-06693213bec6"></p>
+<p>创建成功之后，在产品列表中可以看到刚刚创建的产品</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/2fb7a4f0-aca9-4b63-87ab-db00629913a2.png" alt="2fb7a4f0-aca9-4b63-87ab-db00629913a2"></p>
+<h3 id="产品模型"><a href="#产品模型" class="headerlink" title="产品模型"></a>产品模型</h3><p>产品模型（Product Model），也称<strong>物模型</strong>，用于描述设备具备的能力和特性。开发者通过定义产品模型，在物联网平台构建一款设备的抽象模型，使平台理解该款设备支持的<strong>服务</strong>、<strong>属性</strong>、<strong>命令</strong>等信息</p>
+<ul>
+<li>手表本身：耗电量，使用时间</li>
+<li>指标数据：身体血压、血氧、体温数据</li>
+</ul>
+<p>耗电量、血压、血氧这类数据都属于产品的功能，也叫做物模型</p>
+<p>在IOT平台中，物模型分为三类：</p>
+<table>
+<thead>
+<tr>
+<th>功能类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>服务</td>
+<td>即Service，产品模型的一部分，描述设备具备的业务能力。将设备业务能力拆分成若干个服务后，再定义每个服务具备的属性、命令以及命令的参数。</td>
+</tr>
+<tr>
+<td>属性</td>
+<td>即Property，产品模型的一部分，一般用于描述设备运行时的状态，如环境监测设备所读取的当前环境温度等。</td>
+</tr>
+<tr>
+<td>命令</td>
+<td>设备的功能模型之一，设备能够被外部调用的能力或方法。</td>
+</tr>
+</tbody></table>
+<p><strong>创建手表产品的物模型</strong></p>
+<p>进入产品的详情，选择自定义模型</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/2f2d444a-d977-4a30-a57a-d6268736ec5f.png" alt="2f2d444a-d977-4a30-a57a-d6268736ec5f"></p>
+<p>创建服务信息</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/2f9a2529-88f6-42f9-930b-b564a3c7091e.png" alt="2f9a2529-88f6-42f9-930b-b564a3c7091e"></p>
+<p>然后可以给这个服务添加具体的物模型</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/e8ff4469-2f75-4beb-aac0-289aa2b989d0.png" alt="e8ff4469-2f75-4beb-aac0-289aa2b989d0"></p>
+<p>目前创建的智能手表产品，可以定义四个物模型，如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>属性名称</strong></th>
+<th><strong>属性描述</strong></th>
+<th><strong>数据类型</strong></th>
+<th><strong>访问权限</strong></th>
+<th><strong>取值范围</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BodyTemp</td>
+<td>体温</td>
+<td>int</td>
+<td>读写</td>
+<td>0~50</td>
+</tr>
+<tr>
+<td>xueyang</td>
+<td>血氧</td>
+<td>int</td>
+<td>读写</td>
+<td>0~150</td>
+</tr>
+<tr>
+<td>HeartRate</td>
+<td>心率</td>
+<td>int</td>
+<td>读写</td>
+<td>0~200</td>
+</tr>
+<tr>
+<td>BatteryPercentage</td>
+<td>用电量</td>
+<td>int</td>
+<td>读写</td>
+<td>0~100</td>
+</tr>
+</tbody></table>
+<p>下面是创建了一个<strong>体温</strong>的物模型，其他物模型创建类似</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/7b9fda3c-f38a-4cce-8e4d-799f2c4de18b.png" alt="7b9fda3c-f38a-4cce-8e4d-799f2c4de18b"></p>
+<p>创建成功之后的效果：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/ea5606a4-2716-46fa-b693-e2e8d3a9316f.png" alt="ea5606a4-2716-46fa-b693-e2e8d3a9316f"></p>
+<h2 id="设备"><a href="#设备" class="headerlink" title="设备"></a>设备</h2><p>归属于某个产品下的设备实体，每个设备具有一个唯一的标识码。设备可以是直连物联网平台的设备，也可以是代理子设备连接物联网平台的网关</p>
+<p>前提条件：设备是绑定在产品上的，所以必须先创建产品才行</p>
+<p>操作步骤：</p>
+<ol>
+<li>在左侧导航栏，选择<strong>设备–&gt;所有设备</strong></li>
+<li>在<strong>设备</strong>页面，单击<strong>注册设备</strong></li>
+<li>在<strong>添加设备</strong>对话框中，输入设备信息，单击<strong>确认</strong></li>
+</ol>
+<p>如下图：</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/c2b6e4a2-9573-4e84-9388-d2d95b7fb50e.png" alt="c2b6e4a2-9573-4e84-9388-d2d95b7fb50e"></p>
+<p>创建成功之后，会分配一个设备的信息，<strong>非常重要，需要保存下来，方便后面调试使用</strong></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/8f883b10-f893-4bb3-9c7c-0246853da861.png" alt="8f883b10-f893-4bb3-9c7c-0246853da861"></p>
+<p>在所有设备中可以查看创建好的设备</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/f8fc6048-29d4-4691-b543-7206d4791b6b.png" alt="f8fc6048-29d4-4691-b543-7206d4791b6b"></p>
+<p>设备详情</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/54a17032-af55-485e-8e69-530bb9dbfee8.png" alt="54a17032-af55-485e-8e69-530bb9dbfee8"></p>
+<h2 id="设备接入-数据上报"><a href="#设备接入-数据上报" class="headerlink" title="设备接入-数据上报"></a>设备接入-数据上报</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>属性数据上报是一种需要平台解析、缓存，通过数据流转功能将数据转发到应用侧或华为云其他云服务的一种方式。需要在平台建立产品模型。对于属性上报的数据，平台会记录属性的最新一次上报值，对符合产品模型定义的属性数据进行存储</p>
+<p>官方案例-设备接入：<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/bestpractice-iothub/iot_bp_0024.html">基于NB-IoT小熊派的智慧烟感</a></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/06306a45-9727-490b-8693-d6a4c276564c.png" alt="06306a45-9727-490b-8693-d6a4c276564c"></p>
+<p>在开发阶段可以使用联网的电脑，来模拟设备的数据上报，官方<a target="_blank" rel="noopener" href="https://github.com/huaweicloud/huaweicloud-sdk-java-v3/releases">sdk</a>下载</p>
+<h3 id="Java-SDK使用示例"><a href="#Java-SDK使用示例" class="headerlink" title="Java SDK使用示例"></a>Java SDK使用示例</h3><ol>
+<li>前提：需要提前创建好产品和对应的物模型，以及该产品的设备</li>
+<li>SDK代码获取：<a target="_blank" rel="noopener" href="https://github.com/huaweicloud/huaweicloud-iot-device-sdk-java">SDK下载</a></li>
+<li>解压之后，使用idea打开，找到<code>iot-device-demo</code>模块中的<code>PropertySample</code>类，如下图</li>
+</ol>
+<p><img src="/img/loading.gif" data-original="/img/assests/bfb47b50-7228-4d22-a0fa-8526c7e0997c.png" alt="bfb47b50-7228-4d22-a0fa-8526c7e0997c"></p>
+<ol start="4">
+<li>完整代码，如下：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.huaweicloud.sdk.iot.device.demo.device;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.huaweicloud.sdk.iot.device.IoTDevice;</span><br><span class="line"><span class="keyword">import</span> com.huaweicloud.sdk.iot.device.client.requests.ServiceProperty;</span><br><span class="line"><span class="keyword">import</span> com.huaweicloud.sdk.iot.device.transport.ActionListener;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.logging.log4j.LogManager;</span><br><span class="line"><span class="keyword">import</span> org.apache.logging.log4j.Logger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.security.SecureRandom;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.nio.file.StandardCopyOption.REPLACE_EXISTING;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 演示如何直接使用DeviceClient进行设备属性的上报和读写</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PropertySample</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">IOT_ROOT_CA_RES_PATH</span> <span class="operator">=</span> <span class="string">&quot;ca.jks&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">IOT_ROOT_CA_TMP_PATH</span> <span class="operator">=</span> <span class="string">&quot;huaweicloud-iotda-tmp-&quot;</span> + IOT_ROOT_CA_RES_PATH;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">log</span> <span class="operator">=</span> LogManager.getLogger(PropertySample.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException, IOException &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 加载iot平台的ca证书，进行服务端校验</span></span><br><span class="line">        <span class="type">File</span> <span class="variable">tmpCAFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(IOT_ROOT_CA_TMP_PATH);</span><br><span class="line">        <span class="keyword">try</span> (<span class="type">InputStream</span> <span class="variable">resource</span> <span class="operator">=</span> CommandSample.class.getClassLoader().getResourceAsStream(IOT_ROOT_CA_RES_PATH)) &#123;</span><br><span class="line">            Files.copy(resource, tmpCAFile.toPath(), REPLACE_EXISTING);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建设备并初始化. 用户请替换为自己的接入地址。--&gt;watch01</span></span><br><span class="line">        <span class="type">IoTDevice</span> <span class="variable">device</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IoTDevice</span>(</span><br><span class="line">            <span class="comment">// 接入地址获取方式：登录华为云IoTDA控制台左侧导航栏“总览”页签，在选择的实例基本信息中，单击“接入信息”--&gt;设备接入--&gt;MQTT。选择8883端</span></span><br><span class="line">            <span class="string">&quot;ssl://230590aa95.st1.iotda-device.cn-east-3.myhuaweicloud.com:8883&quot;</span>,</span><br><span class="line">            <span class="comment">// 设备id</span></span><br><span class="line">            <span class="string">&quot;67ab39f1bab900244b1e64a6_watch01&quot;</span>, </span><br><span class="line">            <span class="comment">// 设备秘钥  设备创建成功后会自动生成</span></span><br><span class="line">            <span class="string">&quot;5f71b853642b8ccab767890a5b148f02&quot;</span>, tmpCAFile);</span><br><span class="line">        <span class="keyword">if</span> (device.init() != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/*// 接收平台下发的属性读写     注释掉，用不到</span></span><br><span class="line"><span class="comment">        device.getClient().setPropertyListener(new PropertyListener() &#123;</span></span><br><span class="line"><span class="comment">            // 处理写属性</span></span><br><span class="line"><span class="comment">            @Override</span></span><br><span class="line"><span class="comment">            public void onPropertiesSet(String requestId, List&lt;ServiceProperty&gt; services) &#123;</span></span><br><span class="line"><span class="comment">                // 遍历service</span></span><br><span class="line"><span class="comment">                for (ServiceProperty serviceProperty : services) &#123;</span></span><br><span class="line"><span class="comment">                    log.info(&quot;OnPropertiesSet, serviceId is &#123;&#125;&quot;, serviceProperty.getServiceId());</span></span><br><span class="line"><span class="comment">                    // 遍历属性</span></span><br><span class="line"><span class="comment">                    for (String name : serviceProperty.getProperties().keySet()) &#123;</span></span><br><span class="line"><span class="comment">                        log.info(&quot;property name is &#123;&#125;&quot;, name);</span></span><br><span class="line"><span class="comment">                        log.info(&quot;set property value is &#123;&#125;&quot;, serviceProperty.getProperties().get(name));</span></span><br><span class="line"><span class="comment">                    &#125;</span></span><br><span class="line"><span class="comment">                &#125;</span></span><br><span class="line"><span class="comment">                // 修改本地的属性值</span></span><br><span class="line"><span class="comment">                device.getClient().respondPropsSet(requestId, IotResult.SUCCESS);</span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">        </span></span><br><span class="line"><span class="comment">            */</span><span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 处理读属性。多数场景下，用户可以直接从平台读设备影子，此接口不用实现。</span></span><br><span class="line"><span class="comment">             * 但如果需要支持从设备实时读属性，则需要实现此接口。</span></span><br><span class="line"><span class="comment">             */</span><span class="comment">/*</span></span><br><span class="line"><span class="comment">            @Override</span></span><br><span class="line"><span class="comment">            public void onPropertiesGet(String requestId, String serviceId) &#123;</span></span><br><span class="line"><span class="comment">                log.info(&quot;OnPropertiesGet, the serviceId is &#123;&#125;&quot;, serviceId);</span></span><br><span class="line"><span class="comment">                Map&lt;String, Object&gt; json = new HashMap&lt;&gt;();</span></span><br><span class="line"><span class="comment">                Random rand = new SecureRandom();</span></span><br><span class="line"><span class="comment">                json.put(&quot;alarm&quot;, 1);</span></span><br><span class="line"><span class="comment">                json.put(&quot;temperature&quot;, rand.nextFloat() * 100.0f);</span></span><br><span class="line"><span class="comment">                json.put(&quot;humidity&quot;, rand.nextFloat() * 100.0f);</span></span><br><span class="line"><span class="comment">                json.put(&quot;smokeConcentration&quot;, rand.nextFloat() * 100.0f);</span></span><br><span class="line"><span class="comment">        </span></span><br><span class="line"><span class="comment">                ServiceProperty serviceProperty = new ServiceProperty();</span></span><br><span class="line"><span class="comment">                serviceProperty.setProperties(json);</span></span><br><span class="line"><span class="comment">                serviceProperty.setServiceId(&quot;smokeDetector&quot;);</span></span><br><span class="line"><span class="comment">        </span></span><br><span class="line"><span class="comment">                device.getClient().respondPropsGet(requestId, Arrays.asList(serviceProperty));</span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">        &#125;);*/</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 定时上报属性</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line"></span><br><span class="line">            Map&lt;String, Object&gt; json = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">            <span class="type">Random</span> <span class="variable">rand</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SecureRandom</span>();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 按照物模型设置属性，根据实际情况设置，下面是智能报警手表的物模型</span></span><br><span class="line">            json.put(<span class="string">&quot;BodyTemp&quot;</span>, <span class="number">36</span>);</span><br><span class="line">            json.put(<span class="string">&quot;xueyang&quot;</span>, rand.nextFloat()*<span class="number">100.0f</span>);</span><br><span class="line">            json.put(<span class="string">&quot;HeartRate&quot;</span>, rand.nextFloat()*<span class="number">100.0f</span>);</span><br><span class="line">            json.put(<span class="string">&quot;BatteryPercentage&quot;</span>, rand.nextFloat() * <span class="number">100.0f</span>);</span><br><span class="line"></span><br><span class="line">            <span class="type">ServiceProperty</span> <span class="variable">serviceProperty</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServiceProperty</span>();</span><br><span class="line">            serviceProperty.setProperties(json);</span><br><span class="line">            serviceProperty.setServiceId(<span class="string">&quot;watch_services&quot;</span>); <span class="comment">// serviceId要和物模型一致</span></span><br><span class="line"></span><br><span class="line">            device.getClient().reportProperties(Arrays.asList(serviceProperty), <span class="keyword">new</span> <span class="title class_">ActionListener</span>() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(Object context)</span> &#123;</span><br><span class="line">                    log.info(<span class="string">&quot;pubMessage success&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onFailure</span><span class="params">(Object context, Throwable var2)</span> &#123;</span><br><span class="line">                    log.error(<span class="string">&quot;reportProperties failed&quot;</span> + var2.toString());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><img src="/img/loading.gif" data-original="/img/assests/PixPin_2025-09-10_23-19-18.png" alt="PixPin_2025-09-10_23-19-18"></p>
+<p><img src="/img/loading.gif" data-original="/img/assests/PixPin_2025-09-10_23-19-49.png" alt="PixPin_2025-09-10_23-19-49"></p>
+</blockquote>
+<p>消息发送成功后，可以在华为云IoTDA平台中查看该设备上报的数据</p>
+<p><img src="/img/loading.gif" data-original="/img/assests/37eb8e59-1c40-41bb-a46f-e1eab6281d1e.png" alt="37eb8e59-1c40-41bb-a46f-e1eab6281d1e"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Zhao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://norlcyan.netlify.app">https://norlcyan.netlify.app</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Norlcyan's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/IOT/">IOT</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/archives/7273cdc.html" title="Maven"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-15</div><div class="title">Maven</div></div></a></div><div><a href="/archives/2040d45d.html" title="Canal"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-16</div><div class="title">Canal</div></div></a></div><div><a href="/archives/8fe47ff4.html" title="JDBC"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-15</div><div class="title">JDBC</div></div></a></div><div><a href="/archives/d48132d3.html" title="ElasticSearch"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-16</div><div class="title">ElasticSearch</div></div></a></div><div><a href="/archives/65b69107.html" title="Nginx"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-15</div><div class="title">Nginx</div></div></a></div><div><a href="/archives/9e299c6e.html" title="MySQL数据库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-15</div><div class="title">MySQL数据库</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Zhao</div><div class="author-info__description">人生最遗憾的，莫过于，轻易地放弃了不该放弃的，固执地，坚持了不该坚持的。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">142</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Noober-jpg"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如有侵权文章，可以加我QQ：3481765114通知我</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%8E%E4%B8%BA%E4%BA%91IOT%E5%B9%B3%E5%8F%B0"><span class="toc-number">1.</span> <span class="toc-text">华为云IOT平台</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%89%A9%E8%81%94%E7%BD%91"><span class="toc-number">1.1.</span> <span class="toc-text">什么是物联网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8E%E4%B8%BA%E4%BA%91IoTDA%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.</span> <span class="toc-text">华为云IoTDA简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E9%80%9AIoTDA"><span class="toc-number">1.3.</span> <span class="toc-text">开通IoTDA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E9%80%9A%E7%89%A9%E8%81%94%E7%BD%91%E5%B9%B3%E5%8F%B0"><span class="toc-number">1.3.1.</span> <span class="toc-text">开通物联网平台</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A7%E5%93%81"><span class="toc-number">1.4.</span> <span class="toc-text">产品</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%BA%A7%E5%93%81"><span class="toc-number">1.4.1.</span> <span class="toc-text">创建产品</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A7%E5%93%81%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text">产品模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87"><span class="toc-number">1.5.</span> <span class="toc-text">设备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87%E6%8E%A5%E5%85%A5-%E6%95%B0%E6%8D%AE%E4%B8%8A%E6%8A%A5"><span class="toc-number">1.6.</span> <span class="toc-text">设备接入-数据上报</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.6.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-SDK%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.6.2.</span> <span class="toc-text">Java SDK使用示例</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/4c776360.html" title="EasyExcel（报表导出）">EasyExcel（报表导出）</a><time datetime="2026-01-16T09:04:36.000Z" title="发表于 2026-01-16 17:04:36">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/30ee4bff.html" title="XXL-JOB">XXL-JOB</a><time datetime="2026-01-16T08:58:34.000Z" title="发表于 2026-01-16 16:58:34">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/27717283.html" title="Jmeter快速入门">Jmeter快速入门</a><time datetime="2026-01-16T08:43:23.000Z" title="发表于 2026-01-16 16:43:23">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/2040d45d.html" title="Canal">Canal</a><time datetime="2026-01-16T08:30:26.000Z" title="发表于 2026-01-16 16:30:26">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/d48132d3.html" title="ElasticSearch">ElasticSearch</a><time datetime="2026-01-16T08:30:26.000Z" title="发表于 2026-01-16 16:30:26">2026-01-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Zhao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="/js/header_bg.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body></html>

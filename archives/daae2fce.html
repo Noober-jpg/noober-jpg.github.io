@@ -1,0 +1,428 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>常见算法 | Norlcyan's Blog</title><meta name="author" content="Zhao"><meta name="copyright" content="Zhao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="查找 基本查找 二分查找&#x2F;折半查找 分块查找 插值查找 斐波那契查找 树表查找 哈希查找  基本查找核心：从0索引开始逐个往后查找 1234567891011121314151617public static void main(String[] args) &#123;    &#x2F;&#x2F; 需求：定义一个方法利用基本查找，查询某个元素是否存在    &#x2F;&#x2F; 数据如下：&#123;131,127,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见算法">
+<meta property="og:url" content="http://example.com/archives/daae2fce.html">
+<meta property="og:site_name" content="Norlcyan&#39;s Blog">
+<meta property="og:description" content="查找 基本查找 二分查找&#x2F;折半查找 分块查找 插值查找 斐波那契查找 树表查找 哈希查找  基本查找核心：从0索引开始逐个往后查找 1234567891011121314151617public static void main(String[] args) &#123;    &#x2F;&#x2F; 需求：定义一个方法利用基本查找，查询某个元素是否存在    &#x2F;&#x2F; 数据如下：&#123;131,127,">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/avatar.jpg">
+<meta property="article:published_time" content="2024-07-12T09:07:45.000Z">
+<meta property="article:modified_time" content="2026-01-15T09:59:46.730Z">
+<meta property="article:author" content="Zhao">
+<meta property="article:tag" content="自学系列">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="常见算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpg"><link rel="shortcut icon" href="/img/z.png"><link rel="canonical" href="http://example.com/archives/daae2fce.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '常见算法',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-01-15 17:59:46'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/footer.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/bodybg.css"><meta name="generator" content="Hexo 7.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">142</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Norlcyan's Blog"><span class="site-name">Norlcyan's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">常见算法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-07-12T09:07:45.000Z" title="发表于 2024-07-12 17:07:45">2024-07-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-15T09:59:46.730Z" title="更新于 2026-01-15 17:59:46">2026-01-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="常见算法"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1><ol>
+<li>基本查找</li>
+<li>二分查找&#x2F;折半查找</li>
+<li>分块查找</li>
+<li>插值查找</li>
+<li>斐波那契查找</li>
+<li>树表查找</li>
+<li>哈希查找</li>
+</ol>
+<h2 id="基本查找"><a href="#基本查找" class="headerlink" title="基本查找"></a>基本查找</h2><p><code>核心：从0索引开始逐个往后查找</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="comment">// 需求：定义一个方法利用基本查找，查询某个元素是否存在</span></span><br><span class="line">    <span class="comment">// 数据如下：&#123;131,127,147,81,103,23,7,79&#125;</span></span><br><span class="line">    <span class="type">int</span>[] arr = <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">131</span>,<span class="number">127</span>,<span class="number">147</span>,<span class="number">81</span>,<span class="number">103</span>,<span class="number">23</span>,<span class="number">7</span>,<span class="number">79</span>&#125;;</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> basicSearch(arr,<span class="number">100</span>);</span><br><span class="line">    System.out.println(res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Boolean <span class="title function_">basicSearch</span><span class="params">(<span class="type">int</span>[] arr,<span class="type">int</span> number)</span> &#123;</span><br><span class="line">    <span class="comment">// 利用基本查找来查找number是否存在</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[i] == number) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>前提条件：<code>数组中的数据必须是有序的</code></p>
+<p>核心逻辑：<code>每次排除一般的查找范围</code></p>
+<p>优势：<code>提高查找效率</code></p>
+<p>假设有一个数组为：[7, 23, 79, 81, 103, 127, 131, 147]</p>
+<p>那么，可以得到两个值，min&#x3D;0，max&#x3D;7，这两个值表示最大索引值和最小索引值，</p>
+<p>接着 (max + min) &#x2F; 2，得出来的值就是mid值</p>
+<ul>
+<li>如果查找的元素在mid的左边，缩小范围时，min不变，max等于mid减1</li>
+<li>如果查找的元素在mid的右边，缩小范围时，max不变，min等于mid加1</li>
+<li>如果 min 大于 max 时，说明数据不存在</li>
+</ul>
+<p>如果数据是乱的，先排序再用二分查找得到的索引没有实际意义，只能确定当前数字在数组中是否存在，因为排序之后数字的位置就可能发生变化了（排序浪费的性能比查找高得多）</p>
+<h3 id="插值查找（二分查找改进）"><a href="#插值查找（二分查找改进）" class="headerlink" title="插值查找（二分查找改进）"></a>插值查找（二分查找改进）</h3><p>假设，数组的数据都是均匀分布的，如[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]，那么可以套用以下公式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mid = min + ((key-arr[min]) / (arr[max]-arr[min])) * (max-min)</span><br></pre></td></tr></table></figure>
+
+<p>通过以上公式，可以获得目标数据在索引中的大概位置</p>
+<p>缺点也很明显：需要数据均匀分布，若是不均匀的则会导致资源浪费或查找不到</p>
+<h3 id="斐波那契查找（二分查找改进）"><a href="#斐波那契查找（二分查找改进）" class="headerlink" title="斐波那契查找（二分查找改进）"></a>斐波那契查找（二分查找改进）</h3><p>斐波那契查找就是在二分查找的基础上，根据斐波那契数列进行分割的</p>
+<p>斐波那契数列：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[F0, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]</span><br></pre></td></tr></table></figure>
+
+<p>首先，将要查找的数组长度看为 <code>F(k)</code>，mid的左侧看作 <code>F(k-1)-1</code>，mid的右侧看作 <code>F(k-2)</code></p>
+<p>可以得出：<code>F(k)=F(k-1)-1+F(k-2)</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mid = arr[min] + F(k-1) - 1</span><br></pre></td></tr></table></figure>
+
+<p>解释：<br>在斐波那契数列找一个等于略大于查找表中元素个数的数<code>f(n)</code>，将原查找表扩展为长度<code>F(n)</code>（如果要补充元素，则补充重复最后一个元素，直到满足<code>F(n)</code>），完成后进行斐波那契分割，即<code>F(n)</code>个元素分割为前半部分<code>F(n-1)</code>个元素，后半部分<code>F(n-2)</code>个元素，找出要查找的元素在哪一部分并递归，直到找到</p>
+<ul>
+<li><p>相等，则mid位置的元素即为所求</p>
+</li>
+<li><p>&gt;，则low&#x3D;mid+1，k-&#x3D;2</p>
+<p>解释：low&#x3D;mid+1说明待查找的元素在<code>[mid+1,high]</code>范围内，k-&#x3D;2说明范围<code>[mid+1,high]</code>内的元素个数为</p>
+<p><code>n-(F(k-1)) = Fk-1-F(k-1) = Fk-F(k-1)-1=F(k-2)-1</code></p>
+</li>
+<li><p>&lt;，则high&#x3D;mid-1，k-&#x3D;1</p>
+</li>
+</ul>
+<h2 id="分块查找"><a href="#分块查找" class="headerlink" title="分块查找"></a>分块查找</h2><p>假设有这样一个无序的数组：</p>
+<p>[7, 10, 13, 19, 16, 20, 27, 22, 30, 40, 36, 43, 50, 48]</p>
+<p>把这个数组分成几个不同的块，变成：</p>
+<p>[7,10][13,19,16,20][27,22,30,40,36][43,50,48]</p>
+<p>分块原则1：前一块中的最大数据，小于后一块中每一个数据（块内无序，块间有序）</p>
+<p>分块原则2：块数数量一般等于数字的个数开根号。比如：16个数字一般分为4块左右</p>
+<h1 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h1><h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p>冒泡排序：</p>
+<ol>
+<li>相邻的数据两两比较，小的放前面，大的放后面</li>
+<li>第一轮循环结束，最大值已经找到，在数组的最右边</li>
+<li>第二轮循环，只需要找剩余数组的最大值</li>
+<li>以此类推，如果数组中有n个数据，总共只要执行n-1轮的代码就可以</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arr = &#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 外层循环代表需要执行几轮对比</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arr.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">    <span class="comment">// 内层代表索引为0的数据逐一往后对比</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; arr.length - <span class="number">1</span> - i; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[j] &gt; arr[j+<span class="number">1</span>])&#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">tmp</span> <span class="operator">=</span> arr[j];</span><br><span class="line">            arr[j] = arr[j+<span class="number">1</span>];</span><br><span class="line">            arr[j+<span class="number">1</span>]=tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p>选择排序：从0索引开始，拿着每一个索引上的元素<code>跟后面的元素依次比较</code>，小的放前面，大的放后面，以此类推</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arr = &#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i+<span class="number">1</span>; j &lt; arr.length; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[i] &gt; arr[j]) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">tmp</span> <span class="operator">=</span> arr[i];</span><br><span class="line">            arr[i] = arr[j];</span><br><span class="line">            arr[j] = tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><p>插入排序：将0索引的元素到N索引的元素看作是有序的，把N+1索引的元素到最后一个当成是无序的。遍历无序的数据，将遍历到的元素插入有序序列中适当的位置，如遇到相同数据，插在后面</p>
+<p>类似与打牌时整理牌的过程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arr = &#123;<span class="number">3</span>,<span class="number">44</span>,<span class="number">38</span>,<span class="number">5</span>,<span class="number">47</span>,<span class="number">15</span>,<span class="number">36</span>,<span class="number">26</span>,<span class="number">27</span>,<span class="number">2</span>,<span class="number">46</span>,<span class="number">4</span>,<span class="number">19</span>,<span class="number">50</span>,<span class="number">48</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 找到无序的那一组是从哪个索引开始</span></span><br><span class="line"><span class="type">int</span> <span class="variable">startIndex</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span>(arr[i] &gt; arr[i+<span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="comment">// 确定无序数组开始索引</span></span><br><span class="line">        startIndex = i + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 遍历从startIndex开始到最后一个元素，依次得到无序的那一组数据中的每一个元素</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> startIndex; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="comment">// System.out.print(arr[i] + &quot; &quot;);</span></span><br><span class="line">    <span class="comment">// 将遍历到的数组，插入到前面有序的这一组当中</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. 记录当前要插入数据的索引</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 从后往前开始排序</span></span><br><span class="line">    <span class="keyword">while</span> (j &gt; <span class="number">0</span> &amp;&amp; arr[j] &lt; arr[j - <span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">tmp</span> <span class="operator">=</span> arr[j];</span><br><span class="line">        arr[j] = arr[j-<span class="number">1</span>];</span><br><span class="line">        arr[j-<span class="number">1</span>] = tmp;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>目前的排序的方法，速度对比：选择排序 &gt; 插入排序 &gt; 冒泡排序</p>
+<p>如果数组本身不是很乱的，如 [2,5,12,43,23,11,65] 这种，插入排序是最快的</p>
+<h2 id="递归算法"><a href="#递归算法" class="headerlink" title="递归算法"></a>递归算法</h2><p>递归指的是方法中调用方法本身的现象</p>
+<p>递归的注意点：递归一定要有出口，否则就会出现内存溢出</p>
+<h3 id="递归算法的作用"><a href="#递归算法的作用" class="headerlink" title="递归算法的作用"></a>递归算法的作用</h3><p>把一个复杂的问题层层转化为一个与原问题相似的规模较小的问题来求解</p>
+<p>递归策略只需少量的程序就可描述出解题过程所需要的多次重复计算</p>
+<h3 id="书写递归的两个核心"><a href="#书写递归的两个核心" class="headerlink" title="书写递归的两个核心"></a>书写递归的两个核心</h3><ul>
+<li>找出口：什么时候不再调用方法</li>
+<li>找规则：如何把大问题变成规模较小的问题</li>
+</ul>
+<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>第一轮：把0索引的数字作为基准数，确定基准数在数组中正确的位置。比基准数小的全部在左边，比基准数大的全部在右边</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">quickSort</span><span class="params">(<span class="type">int</span>[] arr,<span class="type">int</span> i,<span class="type">int</span> j)</span> &#123;</span><br><span class="line">    <span class="comment">// 定义两个变量记录要查找的范围</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> i + <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">end</span> <span class="operator">=</span> j;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 递归的出口</span></span><br><span class="line">    <span class="keyword">if</span> (start &gt; end) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">baseNumber</span> <span class="operator">=</span> arr[i];</span><br><span class="line">    <span class="keyword">while</span> (start != end) &#123;</span><br><span class="line">        <span class="comment">// 利用end，从后往前找，找比基准数小的数字</span></span><br><span class="line">        </span><br><span class="line">       <span class="comment">// 这里的 end 和 start 两个循环不能交换位置，否则会导致基准数归位的位置不正</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (end &lt;= start || arr[end] &lt; baseNumber) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            end--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 利用start，从前往后找，找比基准数大的数字</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (end &lt;= start || arr[start] &gt; baseNumber) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            start++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 把end和start指向的元素进行交换</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">tmp</span> <span class="operator">=</span> arr[start];</span><br><span class="line">        arr[start] = arr[end];</span><br><span class="line">        arr[end] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当 start 和 end 指向了同一个数字，那么上面的循环就会结束</span></span><br><span class="line">    <span class="comment">// 表示已经找到了基准数在数组中应存入的位置</span></span><br><span class="line">    <span class="comment">// 基准数归位</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">tmp</span> <span class="operator">=</span> arr[i];</span><br><span class="line">    arr[i] = arr[start];</span><br><span class="line">    arr[start] = tmp;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 确定基准数左边的范围和基准数右边的范围</span></span><br><span class="line">    quickSort(arr,i,start - <span class="number">1</span>);</span><br><span class="line">    quickSort(arr,start + <span class="number">1</span>,j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><p>冒泡排序：</p>
+<p>相邻的元素两两比较，小的放前面，大的放后面</p>
+</li>
+<li><p>选择排序：</p>
+<p>从0索引开始，拿着每一个索引上的元素跟后面的元素依次比较</p>
+<p>小的放前面，大的放后面，以此类推</p>
+</li>
+<li><p>插入排序：</p>
+<p>将数组分为有序和无序两组，遍历无序数据，将元素插入有序序列中即可</p>
+</li>
+<li><p>快速排序：</p>
+<ul>
+<li>将排序范围中的第一个数字作为基准数，再定义两个变量start，end</li>
+<li>start从前往后找比基准数大的，end从后往前找比基准数小的（end先开始找，然后start再找）</li>
+<li>找到之后交换start和end指向的元素，并循环这一过程，直到start和end处于同一个位置，该位置是基准数在数组中应存入的位置，再让基准数归位</li>
+</ul>
+</li>
+</ol>
+<h1 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h1><p>操作数组的工具类</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>public static String toString(数组)</td>
+<td>把数组拼接成一个字符串</td>
+</tr>
+<tr>
+<td>public static int binarySearch(数组, 查找元素)</td>
+<td>二分查找法找元素</td>
+</tr>
+<tr>
+<td>public static int[] copyOf(原数组, 新数组长度)</td>
+<td>拷贝数组</td>
+</tr>
+<tr>
+<td>public static int[] copyOfRange(原数组, 起始索引, 结束索引)</td>
+<td>拷贝数组（指定范围）</td>
+</tr>
+<tr>
+<td>public static void fill(数组, 元素)</td>
+<td>填充数组</td>
+</tr>
+<tr>
+<td>public static void sort(数组)</td>
+<td>按照默认方式进行数组排序</td>
+</tr>
+<tr>
+<td>public static void sort(数组, 排序规则)</td>
+<td>按照指定的规则排序</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// toString 把数组变为字符串</span></span><br><span class="line">System.out.println(<span class="string">&quot;------- toString -------&quot;</span>);</span><br><span class="line"><span class="type">int</span>[] arr = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>&#125;;</span><br><span class="line">System.out.println(Arrays.toString(arr));</span><br><span class="line"></span><br><span class="line"><span class="comment">// binarySearch：二分查找法查找元素</span></span><br><span class="line"><span class="comment">// 注意：需要查找的数组必须是升序的</span></span><br><span class="line"><span class="comment">// 如果数据不存在，则返回数据应该所在位置的 - 索引 - 1</span></span><br><span class="line">System.out.println(<span class="string">&quot;------- binarySearch -------&quot;</span>);</span><br><span class="line">System.out.println(Arrays.binarySearch(arr,<span class="number">5</span>));</span><br><span class="line">System.out.println(Arrays.binarySearch(arr,<span class="number">10</span>));</span><br><span class="line">System.out.println(Arrays.binarySearch(arr,<span class="number">15</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// copyOf：拷贝数组</span></span><br><span class="line">System.out.println(<span class="string">&quot;------- copyOf -------&quot;</span>);</span><br><span class="line"><span class="type">int</span>[] newArr1 = Arrays.copyOf(arr,<span class="number">20</span>);</span><br><span class="line">System.out.println(Arrays.toString(newArr1));</span><br><span class="line"></span><br><span class="line"><span class="comment">// copyOfRange：指定拷贝数组的范围</span></span><br><span class="line"><span class="comment">// 细节：包头不包尾</span></span><br><span class="line">System.out.println(<span class="string">&quot;------- copyOfRange -------&quot;</span>);</span><br><span class="line"><span class="type">int</span>[] newArr2 = Arrays.copyOfRange(arr,<span class="number">0</span>,<span class="number">9</span>);</span><br><span class="line">System.out.println(Arrays.toString(newArr2));</span><br><span class="line"></span><br><span class="line"><span class="comment">// fill：填充数组</span></span><br><span class="line">System.out.println(<span class="string">&quot;------- fill -------&quot;</span>);</span><br><span class="line">Arrays.fill(arr,<span class="number">100</span>);</span><br><span class="line">System.out.println(Arrays.toString(arr));</span><br><span class="line"></span><br><span class="line"><span class="comment">// sort：排序，默认情况下，给基本数据类型进行升序排序</span></span><br><span class="line">System.out.println(<span class="string">&quot;------- sort -------&quot;</span>);</span><br><span class="line"><span class="type">int</span>[] arr2 = &#123;<span class="number">10</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">1</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">4</span>,<span class="number">9</span>&#125;;</span><br><span class="line">Arrays.sort(arr2);</span><br><span class="line">System.out.println(Arrays.toString(arr2));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">Integer[] arr=&#123;<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">4</span>,<span class="number">9</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二个参数，是一个接口，所以在调用方法的时候，需要传递这个接口的实现类对象，作为排序规则</span></span><br><span class="line"><span class="comment">// 但是这个实现类，只要用一次，所以就没有必要单独的去写一个类，直接采取匿名内部类的方式就可以了</span></span><br><span class="line">Arrays.sort(arr, <span class="keyword">new</span> <span class="title class_">Comparator</span>&lt;Integer&gt;() &#123;</span><br><span class="line">    <span class="comment">// 底层原理：</span></span><br><span class="line">    <span class="comment">// 利用插入排序 + 二分查找的方式进行排序的</span></span><br><span class="line">    <span class="comment">// 默认把0索引的数据当作是有序的序列，1索引到最后认为是无序的序列</span></span><br><span class="line">    <span class="comment">// 遍历无序的序列得到里面的每一个元素，假设当前遍历得到的元素是A元素</span></span><br><span class="line">    <span class="comment">// 把A往有序序列中进行插入，在插入的时候，是利用二分查找确定A元素的插入点</span></span><br><span class="line">    <span class="comment">// 拿着A元素，跟插入点的元素进行比较，比较的规则就是compare方法的方法体</span></span><br><span class="line">    <span class="comment">// 如果方法的返回值是负数，拿着A继续跟前面的数据进行比较</span></span><br><span class="line">    <span class="comment">// 如果方法的返回值是正数，拿着A继续跟后面的数据进行比较</span></span><br><span class="line">    <span class="comment">// 如果方法的返回值是0，也拿着A跟后面的数据进行比较</span></span><br><span class="line">    <span class="comment">// 直到能确定A的最终位置为止</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// compare的形参：</span></span><br><span class="line">    <span class="comment">// o1：表示在无序序列中遍历得到的每一个元素</span></span><br><span class="line">    <span class="comment">// o2：表示在有序序列中的元素</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回值：</span></span><br><span class="line">    <span class="comment">// 负数：表示当前要插入的元素，是小的，要放在前面</span></span><br><span class="line">    <span class="comment">// 正数：表示当前要插入的元素，是大的，要放在后面</span></span><br><span class="line">    <span class="comment">// 0：表示当前要插入的元素跟现在的元素比是一样的，也会放在后面</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 简单理解：</span></span><br><span class="line">    <span class="comment">// o1 - o2 升序排列</span></span><br><span class="line">    <span class="comment">// o2 - o1 降序排列</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="comment">// Integer[] arr=&#123;2,3,1,5,6,7,8,4,9&#125;;</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compare</span><span class="params">(Integer o1, Integer o2)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;==========&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;o1：&quot;</span> + o1);</span><br><span class="line">        System.out.println(<span class="string">&quot;o2：&quot;</span> + o2);</span><br><span class="line">        <span class="keyword">return</span> o1 - o2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">System.out.println(Arrays.toString(arr));</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h1 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h1><p>对 <code>Arrary.sort()</code> 进行简化：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Integer[] arr=&#123;<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">4</span>,<span class="number">9</span>&#125;;</span><br><span class="line">Arrays.sort(arr, (Integer o1,Integer o2) -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> o1 - o2;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">System.out.println(Arrays.toString(arr));</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h2><p>函数式编程（Functional programming）是一种思想特点</p>
+<p>面向对象：先找对象，让对象做事情</p>
+<p>函数式编程思想，忽略面向对象的复杂语法，<font color='red'>强调做什么，而不是谁去做</font></p>
+<p>而Lambda表达式就是函数式思想的体现</p>
+<h2 id="Lambda表达式的标准格式"><a href="#Lambda表达式的标准格式" class="headerlink" title="Lambda表达式的标准格式"></a>Lambda表达式的标准格式</h2><p>Lambda表达式是JDK8开始后的一种新语法形式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">() -&gt; &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>()</code> 对应着方法的形参</li>
+<li><code>-&gt;</code> 固定格式</li>
+<li><code>&#123;&#125;</code>对应着方法的方法体</li>
+</ul>
+<p>注意点：</p>
+<ul>
+<li><p>Lambda表达式可以用来简化匿名内部类的书写</p>
+</li>
+<li><p>Lambda表达式只能简化函数式接口的匿名内部类的写法</p>
+</li>
+<li><p>函数式接口：</p>
+<p>有且仅有一个抽象方法的接口叫做函数式接口，接口上方可以加@FunctionalInterface注解</p>
+</li>
+</ul>
+<h2 id="Lambda表达式的省略写法"><a href="#Lambda表达式的省略写法" class="headerlink" title="Lambda表达式的省略写法"></a>Lambda表达式的省略写法</h2><p>省略核心：可推导，可省略</p>
+<ul>
+<li>参数类型可以省略不写</li>
+<li>如果只有一个参数，参数类型可以省略，同时<code>()</code>也可以省略</li>
+<li>如果lambda表达式的方法体只有一行，大括号，分号，return可以省略不写，需要同时省略</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrarys.sort(arr,(o1,o2) -&gt; o1 - o2)</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Zhao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://norlcyan.netlify.app/2024/07/12/%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/">https://norlcyan.netlify.app/2024/07/12/%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Norlcyan's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%AD%A6%E7%B3%BB%E5%88%97/">自学系列</a><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/">常见算法</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/archives/8e05630.html" title="Java测试题"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-29</div><div class="title">Java测试题</div></div></a></div><div><a href="/archives/df2849ec.html" title="Java"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-27</div><div class="title">Java</div></div></a></div><div><a href="/archives/79666db.html" title="数据结构"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-12</div><div class="title">数据结构</div></div></a></div><div><a href="/archives/7273cdc.html" title="Maven"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-15</div><div class="title">Maven</div></div></a></div><div><a href="/archives/5055bdbb.html" title="CPP文件操作"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-28</div><div class="title">CPP文件操作</div></div></a></div><div><a href="/archives/9a0f14d8.html" title="CPP基础案例"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-28</div><div class="title">CPP基础案例</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Zhao</div><div class="author-info__description">人生最遗憾的，莫过于，轻易地放弃了不该放弃的，固执地，坚持了不该坚持的。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">142</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Noober-jpg"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如有侵权文章，可以加我QQ：3481765114通知我</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE"><span class="toc-number">1.</span> <span class="toc-text">查找</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%9F%A5%E6%89%BE"><span class="toc-number">1.1.</span> <span class="toc-text">基本查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE"><span class="toc-number">1.2.</span> <span class="toc-text">二分查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%80%BC%E6%9F%A5%E6%89%BE%EF%BC%88%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E6%94%B9%E8%BF%9B%EF%BC%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">插值查找（二分查找改进）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%9F%A5%E6%89%BE%EF%BC%88%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E6%94%B9%E8%BF%9B%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">斐波那契查找（二分查找改进）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%9D%97%E6%9F%A5%E6%89%BE"><span class="toc-number">1.3.</span> <span class="toc-text">分块查找</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-number">2.1.</span> <span class="toc-text">冒泡排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-number">2.2.</span> <span class="toc-text">选择排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-number">2.3.</span> <span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95"><span class="toc-number">2.4.</span> <span class="toc-text">递归算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">2.4.1.</span> <span class="toc-text">递归算法的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%A6%E5%86%99%E9%80%92%E5%BD%92%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A0%B8%E5%BF%83"><span class="toc-number">2.4.2.</span> <span class="toc-text">书写递归的两个核心</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-number">2.5.</span> <span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.6.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Arrays"><span class="toc-number">3.</span> <span class="toc-text">Arrays</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">Lambda表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B"><span class="toc-number">4.1.</span> <span class="toc-text">函数式编程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E6%A0%87%E5%87%86%E6%A0%BC%E5%BC%8F"><span class="toc-number">4.2.</span> <span class="toc-text">Lambda表达式的标准格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E7%9C%81%E7%95%A5%E5%86%99%E6%B3%95"><span class="toc-number">4.3.</span> <span class="toc-text">Lambda表达式的省略写法</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/4c776360.html" title="EasyExcel（报表导出）">EasyExcel（报表导出）</a><time datetime="2026-01-16T09:04:36.000Z" title="发表于 2026-01-16 17:04:36">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/30ee4bff.html" title="XXL-JOB">XXL-JOB</a><time datetime="2026-01-16T08:58:34.000Z" title="发表于 2026-01-16 16:58:34">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/27717283.html" title="Jmeter快速入门">Jmeter快速入门</a><time datetime="2026-01-16T08:43:23.000Z" title="发表于 2026-01-16 16:43:23">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/2040d45d.html" title="Canal">Canal</a><time datetime="2026-01-16T08:30:26.000Z" title="发表于 2026-01-16 16:30:26">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/d48132d3.html" title="ElasticSearch">ElasticSearch</a><time datetime="2026-01-16T08:30:26.000Z" title="发表于 2026-01-16 16:30:26">2026-01-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Zhao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="/js/header_bg.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body></html>
