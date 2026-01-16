@@ -1,0 +1,305 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>分库分表 | Norlcyan's Blog</title><meta name="author" content="Zhao"><meta name="copyright" content="Zhao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="随着用户不断的进行下单，MySQL订单表中的数据会不断的增多，其存储及查询性能也会随之下降 当数据量没有那么大的时候，可以通过添加索引和缓存来进行查询优化，但是数据量过大，就只能分库分表了 分库分表可以简单理解为原来一个表存储数据现在改为通过多个数据库及多个表去存储 一般认为，当MySQL单表行数超过500万行或者单表容量超过2GB时建议进行分库分表  在数据量及访问压力不是特别大的情况，首先考虑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分库分表">
+<meta property="og:url" content="http://example.com/archives/a3a0c28e.html">
+<meta property="og:site_name" content="Norlcyan&#39;s Blog">
+<meta property="og:description" content="随着用户不断的进行下单，MySQL订单表中的数据会不断的增多，其存储及查询性能也会随之下降 当数据量没有那么大的时候，可以通过添加索引和缓存来进行查询优化，但是数据量过大，就只能分库分表了 分库分表可以简单理解为原来一个表存储数据现在改为通过多个数据库及多个表去存储 一般认为，当MySQL单表行数超过500万行或者单表容量超过2GB时建议进行分库分表  在数据量及访问压力不是特别大的情况，首先考虑">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/avatar.jpg">
+<meta property="article:published_time" content="2026-01-16T10:55:40.000Z">
+<meta property="article:modified_time" content="2026-01-16T11:16:03.644Z">
+<meta property="article:author" content="Zhao">
+<meta property="article:tag" content="关系型数据库">
+<meta property="article:tag" content="垂直分表">
+<meta property="article:tag" content="水平分表">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpg"><link rel="shortcut icon" href="/img/z.png"><link rel="canonical" href="http://example.com/archives/a3a0c28e.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '分库分表',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-01-16 19:16:03'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/footer.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/bodybg.css"><meta name="generator" content="Hexo 7.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">102</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">160</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Norlcyan's Blog"><span class="site-name">Norlcyan's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">分库分表</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-16T10:55:40.000Z" title="发表于 2026-01-16 18:55:40">2026-01-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-16T11:16:03.644Z" title="更新于 2026-01-16 19:16:03">2026-01-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%91%E5%B2%9A%E5%88%B0%E5%AE%B6%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF%E6%A0%88/">云岚到家相关技术栈</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="分库分表"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><p>随着用户不断的进行下单，MySQL订单表中的数据会不断的增多，其存储及查询性能也会随之下降</p>
+<p>当数据量没有那么大的时候，可以通过添加索引和缓存来进行查询优化，但是数据量过大，就只能分库分表了</p>
+<p>分库分表可以简单理解为原来一个表存储数据现在改为通过多个数据库及多个表去存储</p>
+<p>一般认为，当MySQL单表行数超过500万行或者单表容量超过2GB时建议进行分库分表</p>
+<blockquote>
+<p>在数据量及访问压力不是特别大的情况，首先考虑缓存、读写分离、索引技术等方案</p>
+<p>只有上面方法已经无法支撑时，再考虑进行分库分表，因为<strong>分库分表成本比较高，带来的问题也比较多</strong></p>
+</blockquote>
+<h1 id="方案介绍"><a href="#方案介绍" class="headerlink" title="方案介绍"></a>方案介绍</h1><p>分库分表包括分库和分表两个部分，在生产中通常包括：垂直分库、水平分库、垂直分表、水平分表四种方式</p>
+<p>在微服务环境下，一般一个微服务对应一个数据库，<strong>也就是说已经实现了分库</strong>，因此重点来看分表</p>
+<h2 id="垂直分表"><a href="#垂直分表" class="headerlink" title="垂直分表"></a>垂直分表</h2><p>垂直分表就是将一张表中的列分到多张表中，一般用在单张数据表列比较多的情况下按冷热字段进行拆分</p>
+<p>例如下面的案例中，用户在浏览商品列表时，只会关注商品名称、图片、价格等</p>
+<p>只有对某商品感兴趣时才会查看该商品的详细描述</p>
+<p><img src="/img/loading.gif" data-original="/img/%E4%BA%91%E5%B2%9A%E5%88%B0%E5%AE%B6assets/839e09ac-f2c1-467b-b7d5-49a89bdbd285.png" alt="839e09ac-f2c1-467b-b7d5-49a89bdbd285"></p>
+<p>也就是说，商品描述字段访问频次较低，且该字段存储占用空间较大，访问单个数据IO时间较长</p>
+<p>在此情况下，就可以将访问频次较高的商品基本信息放在一张表中，而将访问频次低的描述信息单独放在一张表中</p>
+<p><img src="/img/loading.gif" data-original="/img/%E4%BA%91%E5%B2%9A%E5%88%B0%E5%AE%B6assets/a7ac40a7-686d-4d69-9fe8-d42688a74bd2.png" alt="a7ac40a7-686d-4d69-9fe8-d42688a74bd2"></p>
+<p>垂直分表带来的好处是：减少了每张表中的字段数量，提高了热数据的访问效率</p>
+<p>垂直分表的一般<strong>规则</strong>是：</p>
+<ol>
+<li>把<strong>不常用的字段</strong>单独放在一张表</li>
+<li>把text、blob等<strong>大字段</strong>单独放在一张表</li>
+<li>经常组合查询的列放在一张表中</li>
+</ol>
+<h2 id="水平分表"><a href="#水平分表" class="headerlink" title="水平分表"></a>水平分表</h2><p>水平分表就是一张表的数据分散到多张数据表中去，一般用在<strong>单张表数据量过多的情况</strong></p>
+<p>例如下面的案例中，商品表的数据量假设有1000w，就可以将一张商品表拆分为结构一样的两张，每个表存500w</p>
+<p>至于分散数据的原则，经常使用到的两种方案是：hash方式和range方式</p>
+<ul>
+<li>hash方式：按照订单id散列法进行数据分散，id对表数量取余得到的结果就是数据要分散到表的索引<ul>
+<li>此方式的优点是数据分散均匀，缺点是扩容时需要迁移数据</li>
+</ul>
+</li>
+<li>range方式：0到500万到1表，500万到1000万到2表，依次类推<ul>
+<li>此方式的优点是扩容时不需要迁移数据，缺点是存在数据分布不均匀的情况</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/loading.gif" data-original="/img/%E4%BA%91%E5%B2%9A%E5%88%B0%E5%AE%B6assets/497b8325-a80c-483f-ab89-5aade8e248c2.png" alt="497b8325-a80c-483f-ab89-5aade8e248c2"></p>
+<h1 id="方案设计"><a href="#方案设计" class="headerlink" title="方案设计"></a>方案设计</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>本次订单分库分表，使用hash法进行分库，使用range法进行分表</p>
+<ol>
+<li><strong>分库</strong>：设计三个数据库，根据用户id分库，分库表达式为：db_用户id % 3</li>
+<li><strong>分表</strong>：根据订单范围分表，0—1500万落到table_0，1500万—3000万落到table_1，依次类推</li>
+</ol>
+<p><img src="/img/loading.gif" data-original="/img/%E4%BA%91%E5%B2%9A%E5%88%B0%E5%AE%B6assets/8defe8ad-ddc0-41f8-a795-b7b5105fb8e5.png" alt="8defe8ad-ddc0-41f8-a795-b7b5105fb8e5"></p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>订单数据库分为三个库 :<code>jzo2o-orders-0</code>、<code>jzo2o-orders-1</code>、<code>jzo2o-orders-2</code></p>
+<p><img src="/img/loading.gif" data-original="/img/%E4%BA%91%E5%B2%9A%E5%88%B0%E5%AE%B6assets/dddc4634-2f5a-41e7-9e68-264ea28eeece.png" alt="dddc4634-2f5a-41e7-9e68-264ea28eeece"></p>
+<p>每个数据库对<code>orders</code>、<code>biz_snapshot</code>、<code>orders_serve</code>进行分表（暂分3个表）</p>
+<p>其它表为广播表（即在<strong>每个数据库都存在且数据是完整的</strong>）</p>
+<p><img src="/img/loading.gif" data-original="/img/%E4%BA%91%E5%B2%9A%E5%88%B0%E5%AE%B6assets/6de0d912-44e0-4d6e-8bfc-0aa151e15982.png" alt="6de0d912-44e0-4d6e-8bfc-0aa151e15982"></p>
+<h2 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h2><p>ShardingSphere是一款分布式的数据库生态系统，可以将任意数据库转换为分布式数据库</p>
+<p>它基于底层数据库提供分布式数据库解决方案，可以水平扩展计算和存储</p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://shardingsphere.apache.org/document/current/cn/overview/">https://shardingsphere.apache.org/document/current/cn/overview/</a></p>
+<h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><h2 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a><strong>添加依赖</strong></h2><p>在<code>jzo2o-orders-base</code>工程引入<code>jzo2o-shardingsphere-jdbc</code>的依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.jzo2o<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jzo2o-shardingsphere-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="添加配置"><a href="#添加配置" class="headerlink" title="添加配置"></a><strong>添加配置</strong></h2><p>在<code>jzo2o-orders-base</code>工程的<code>resources</code>下配置<code>shardingsphere-jdbc-dev.yml</code></p>
+<p>配置项说明参考官方文档：<a target="_blank" rel="noopener" href="https://shardingsphere.apache.org/document/current/cn/user-manual/shardingsphere-jdbc/yaml-config/rules/sharding/">https://shardingsphere.apache.org/document/current/cn/user-manual/shardingsphere-jdbc/yaml-config/rules/sharding/</a></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dataSources:</span> <span class="comment"># 数据源, 下面可以配置多个数据库连接信息</span></span><br><span class="line">  <span class="attr">jzo2o-orders-0:</span></span><br><span class="line">    <span class="attr">dataSourceClassName:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span></span><br><span class="line">    <span class="attr">jdbcUrl:</span> <span class="string">jdbc:mysql://192.168.101.68:3306/jzo2o-orders-0?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;serverTimezone=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">jzo2o-orders-1:</span></span><br><span class="line">    <span class="attr">dataSourceClassName:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span></span><br><span class="line">    <span class="attr">jdbcUrl:</span> <span class="string">jdbc:mysql://192.168.101.68:3306/jzo2o-orders-1?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;serverTimezone=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">jzo2o-orders-2:</span></span><br><span class="line">    <span class="attr">dataSourceClassName:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span></span><br><span class="line">    <span class="attr">jdbcUrl:</span> <span class="string">jdbc:mysql://192.168.101.68:3306/jzo2o-orders-2?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;serverTimezone=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">mysql</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="type">!TRANSACTION</span></span><br><span class="line">    <span class="attr">defaultType:</span> <span class="string">BASE</span></span><br><span class="line">    <span class="attr">providerType:</span> <span class="string">Seata</span></span><br><span class="line">  <span class="bullet">-</span> <span class="type">!SHARDING</span></span><br><span class="line">    <span class="attr">tables:</span> <span class="comment"># 数据分片规则配置</span></span><br><span class="line">      <span class="attr">orders:</span> <span class="comment"># 逻辑表名称</span></span><br><span class="line">        <span class="attr">actualDataNodes:</span> <span class="string">jzo2o-orders-$&#123;0..2&#125;.orders_$&#123;0..2&#125;</span> <span class="comment"># 实际数据节点 数据源名+表名</span></span><br><span class="line">        <span class="attr">tableStrategy:</span> <span class="comment"># 分表策略</span></span><br><span class="line">          <span class="attr">standard:</span></span><br><span class="line">            <span class="attr">shardingColumn:</span> <span class="string">id</span> <span class="comment">#分片列名称</span></span><br><span class="line">            <span class="attr">shardingAlgorithmName:</span> <span class="string">orders_table_inline</span> <span class="comment">#分片算法名称</span></span><br><span class="line">        <span class="attr">databaseStrategy:</span> <span class="comment"># 分库策略</span></span><br><span class="line">          <span class="attr">standard:</span> <span class="comment"># 用于单分片键的标准分片场景</span></span><br><span class="line">            <span class="attr">shardingColumn:</span> <span class="string">user_id</span> <span class="comment"># 分片列名称</span></span><br><span class="line">            <span class="attr">shardingAlgorithmName:</span> <span class="string">orders_database_inline</span> <span class="comment"># 分片算法名称</span></span><br><span class="line">      <span class="attr">orders_serve:</span></span><br><span class="line">        <span class="attr">actualDataNodes:</span> <span class="string">jzo2o-orders-$&#123;0..2&#125;.orders_serve_$&#123;0..2&#125;</span></span><br><span class="line">        <span class="attr">tableStrategy:</span></span><br><span class="line">          <span class="attr">standard:</span></span><br><span class="line">            <span class="attr">shardingColumn:</span> <span class="string">id</span></span><br><span class="line">            <span class="attr">shardingAlgorithmName:</span> <span class="string">orders_serve_table_inline</span></span><br><span class="line">        <span class="attr">databaseStrategy:</span></span><br><span class="line">          <span class="attr">standard:</span></span><br><span class="line">            <span class="attr">shardingColumn:</span> <span class="string">serve_provider_id</span></span><br><span class="line">            <span class="attr">shardingAlgorithmName:</span> <span class="string">orders_serve_database_inline</span></span><br><span class="line">      <span class="attr">biz_snapshot:</span></span><br><span class="line">        <span class="attr">actualDataNodes:</span> <span class="string">jzo2o-orders-$&#123;0..2&#125;.biz_snapshot_$&#123;0..2&#125;</span></span><br><span class="line">        <span class="attr">tableStrategy:</span></span><br><span class="line">          <span class="attr">standard:</span></span><br><span class="line">            <span class="attr">shardingColumn:</span> <span class="string">biz_id</span></span><br><span class="line">            <span class="attr">shardingAlgorithmName:</span> <span class="string">biz_snapshot_table_inline</span></span><br><span class="line">        <span class="attr">databaseStrategy:</span></span><br><span class="line">          <span class="attr">standard:</span></span><br><span class="line">            <span class="attr">shardingColumn:</span> <span class="string">db_shard_id</span></span><br><span class="line">            <span class="attr">shardingAlgorithmName:</span> <span class="string">biz_snapshot_database_inline</span></span><br><span class="line">    <span class="attr">shardingAlgorithms:</span></span><br><span class="line">      <span class="comment"># 订单-分库算法</span></span><br><span class="line">      <span class="attr">orders_database_inline:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">INLINE</span></span><br><span class="line">        <span class="attr">props:</span></span><br><span class="line">          <span class="comment"># 分库算法表达式</span></span><br><span class="line">          <span class="attr">algorithm-expression:</span> <span class="string">jzo2o-orders-$&#123;user_id</span> <span class="string">%</span> <span class="number">3</span><span class="string">&#125;</span></span><br><span class="line">          <span class="comment"># 分库支持范围查询</span></span><br><span class="line">          <span class="attr">allow-range-query-with-inline-sharding:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># 订单-分表算法</span></span><br><span class="line">      <span class="attr">orders_table_inline:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">INLINE</span></span><br><span class="line">        <span class="attr">props:</span></span><br><span class="line">          <span class="comment"># 分表算法表达式</span></span><br><span class="line">          <span class="attr">algorithm-expression:</span> <span class="string">orders_$&#123;(int)Math.floor(id</span> <span class="string">%</span> <span class="number">10000000000</span> <span class="string">/</span> <span class="number">15000000</span><span class="string">)&#125;</span></span><br><span class="line">          <span class="comment"># 允许范围查询</span></span><br><span class="line">          <span class="attr">allow-range-query-with-inline-sharding:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># 服务单-分库算法</span></span><br><span class="line">      <span class="attr">orders_serve_database_inline:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">INLINE</span></span><br><span class="line">        <span class="attr">props:</span></span><br><span class="line">          <span class="comment"># 分库算法表达式</span></span><br><span class="line">          <span class="attr">algorithm-expression:</span> <span class="string">jzo2o-orders-$&#123;serve_provider_id</span> <span class="string">%</span> <span class="number">3</span><span class="string">&#125;</span></span><br><span class="line">          <span class="comment"># 允许范围查询</span></span><br><span class="line">          <span class="attr">allow-range-query-with-inline-sharding:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># 服务单-分表算法</span></span><br><span class="line">      <span class="attr">orders_serve_table_inline:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">INLINE</span></span><br><span class="line">        <span class="attr">props:</span></span><br><span class="line">          <span class="comment"># 允许范围查询</span></span><br><span class="line">          <span class="attr">algorithm-expression:</span> <span class="string">orders_serve_$&#123;(int)Math.floor(id</span> <span class="string">%</span> <span class="number">10000000000</span> <span class="string">/</span> <span class="number">15000000</span><span class="string">)&#125;</span></span><br><span class="line">          <span class="comment"># 允许范围查询</span></span><br><span class="line">          <span class="attr">allow-range-query-with-inline-sharding:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># 快照-分库算法</span></span><br><span class="line">      <span class="attr">biz_snapshot_database_inline:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">INLINE</span></span><br><span class="line">        <span class="attr">props:</span></span><br><span class="line">          <span class="comment"># 分库算法表达式</span></span><br><span class="line">          <span class="attr">algorithm-expression:</span> <span class="string">jzo2o-orders-$&#123;db_shard_id</span> <span class="string">%</span> <span class="number">3</span><span class="string">&#125;</span></span><br><span class="line">          <span class="comment"># 允许范围查询</span></span><br><span class="line">          <span class="attr">allow-range-query-with-inline-sharding:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># 快照-分表算法</span></span><br><span class="line">      <span class="attr">biz_snapshot_table_inline:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">INLINE</span></span><br><span class="line">        <span class="attr">props:</span></span><br><span class="line">          <span class="comment"># 允许范围查询</span></span><br><span class="line">          <span class="attr">algorithm-expression:</span> <span class="string">biz_snapshot_$&#123;(int)Math.floor((Long.valueOf(biz_id))</span>  <span class="string">%</span> <span class="number">10000000000</span> <span class="string">/</span> <span class="number">15000000</span><span class="string">)&#125;</span></span><br><span class="line">          <span class="comment"># 允许范围查询</span></span><br><span class="line">          <span class="attr">allow-range-query-with-inline-sharding:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># id生成器</span></span><br><span class="line">    <span class="attr">keyGenerators:</span></span><br><span class="line">      <span class="attr">snowflake:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">SNOWFLAKE</span></span><br><span class="line">  <span class="bullet">-</span> <span class="type">!BROADCAST</span> <span class="comment"># 广播表</span></span><br><span class="line">    <span class="attr">tables:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">breach_record</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">orders_canceled</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">orders_refund</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">orders_dispatch</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">orders_seize</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">serve_provider_sync</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">state_persister</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">orders_dispatch_receive</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">undo_log</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">history_orders_sync</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">history_orders_serve_sync</span></span><br><span class="line"><span class="attr">props:</span></span><br><span class="line">  <span class="attr">sql-show:</span> <span class="literal">true</span> <span class="comment"># 打印sql</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>进入<code>nacos</code>在<code>jzo2o-orders-manager.yaml</code>中配置数据源使用<code>ShardingSphereDriver</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">org.apache.shardingsphere.driver.ShardingSphereDriver</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:shardingsphere:classpath:shardingsphere-jdbc-$&#123;spring.profiles.active&#125;.yml</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/img/%E4%BA%91%E5%B2%9A%E5%88%B0%E5%AE%B6assets/5a005a5d-316b-4b12-b125-5d1b6bcbba56.png" alt="5a005a5d-316b-4b12-b125-5d1b6bcbba56"></p>
+<h2 id="状态机分库"><a href="#状态机分库" class="headerlink" title="状态机分库"></a><strong>状态机分库</strong></h2><p>由于对状态机进行了分库分表，需要修改创建订单方法中启动状态机代码：</p>
+<p>使用<code>start(Long dbShardId, String bizId, T bizSnapshot)</code> 方法启动状态机，传入分片键<code>user_id</code></p>
+<p><img src="/img/loading.gif" data-original="/img/%E4%BA%91%E5%B2%9A%E5%88%B0%E5%AE%B6assets/12793354-64c4-4b3f-90f0-edb36bb9b511.png" alt="12793354-64c4-4b3f-90f0-edb36bb9b511"></p>
+<p>支付成功调用状态机变更状态方法：</p>
+<p>使用：<code>changeStatus(Long dbShardId, String bizId, StatusChangeEvent statusChangeEventEnum, T bizSnapshot)</code>变更状态, 传入分片键<code>user_id</code>，代码如下：</p>
+<p><img src="/img/loading.gif" data-original="/img/%E4%BA%91%E5%B2%9A%E5%88%B0%E5%AE%B6assets/2169789c-d7d4-41e7-9cf5-7b81a2dad60f.png" alt="2169789c-d7d4-41e7-9cf5-7b81a2dad60f"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Zhao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://norlcyan.netlify.app">https://norlcyan.netlify.app</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Norlcyan's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/">关系型数据库</a><a class="post-meta__tags" href="/tags/%E5%9E%82%E7%9B%B4%E5%88%86%E8%A1%A8/">垂直分表</a><a class="post-meta__tags" href="/tags/%E6%B0%B4%E5%B9%B3%E5%88%86%E8%A1%A8/">水平分表</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/archives/9e299c6e.html" title="MySQL数据库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-15</div><div class="title">MySQL数据库</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Zhao</div><div class="author-info__description">人生最遗憾的，莫过于，轻易地放弃了不该放弃的，固执地，坚持了不该坚持的。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">102</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">160</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Noober-jpg"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如有侵权文章，可以加我QQ：3481765114通知我</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">方案介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%82%E7%9B%B4%E5%88%86%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text">垂直分表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B0%B4%E5%B9%B3%E5%88%86%E8%A1%A8"><span class="toc-number">1.2.</span> <span class="toc-text">水平分表</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text">方案设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">2.1.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C"><span class="toc-number">2.2.</span> <span class="toc-text">操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF"><span class="toc-number">2.3.</span> <span class="toc-text">技术</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">具体实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="toc-number">3.1.</span> <span class="toc-text">添加依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">添加配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E6%9C%BA%E5%88%86%E5%BA%93"><span class="toc-number">3.3.</span> <span class="toc-text">状态机分库</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/4631b1c1.html" title="状态机">状态机</a><time datetime="2026-01-16T11:22:18.000Z" title="发表于 2026-01-16 19:22:18">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e4dbeca2.html" title="事务失效">事务失效</a><time datetime="2026-01-16T10:59:54.000Z" title="发表于 2026-01-16 18:59:54">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/fa6c2e75.html" title="冷热分离">冷热分离</a><time datetime="2026-01-16T10:59:54.000Z" title="发表于 2026-01-16 18:59:54">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/885d9d8a.html" title="数据表设计规范">数据表设计规范</a><time datetime="2026-01-16T10:59:54.000Z" title="发表于 2026-01-16 18:59:54">2026-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/a47e7bb3.html" title="缓存优化">缓存优化</a><time datetime="2026-01-16T10:59:54.000Z" title="发表于 2026-01-16 18:59:54">2026-01-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Zhao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="/js/header_bg.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body></html>
